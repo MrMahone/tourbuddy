@@ -9,6 +9,16 @@
         "import http.server as h, mimetypes; mimetypes.add_type('text/javascript','.js'); mimetypes.add_type('application/manifest+json','.webmanifest'); mimetypes.add_type('image/svg+xml','.svg'); h.test(HandlerClass=h.SimpleHTTPRequestHandler, port=8765)"
       ],
       "port": 8765
+    },
+    {
+      "name": "elbe-tour-subpath",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-c",
+        "import http.server as h, mimetypes, functools; mimetypes.add_type('text/javascript','.js'); mimetypes.add_type('application/manifest+json','.webmanifest'); H=functools.partial(h.SimpleHTTPRequestHandler, directory='..'); h.test(HandlerClass=H, port=8792)"
+      ],
+      "port": 8792,
+      "url": "http://localhost:8792"
     }
   ]
 }
