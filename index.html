@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Elbe-Tour</title>
+<meta name="theme-color" content="#f3f2f2">
+<meta name="description" content="Kartenwerkzeug für die Elbe-Radtour: Wegpunkte, Schlafplätze, Querungen mit Ampelstatus.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0;height:100%;overscroll-behavior:none;-webkit-text-size-adjust:100%}
+
+  :root{
+    --sf:#f3f2f2; --sf2:#e9e7e2;
+    --ink:#201e1d; --mut:#6d6a66;
+    --ln:#201e1d; --lnsoft:#cfccc7;
+    --acc:#ec3013; --acc-dark:#a2210d;
+    --wp:#3c5a68;
+    --ok:#2f7d33; --warn:#b26a00; --bad:#8f1d1d;
+    --paper:#f3f2f2;
+    --font:'Archivo','Segoe UI',system-ui,-apple-system,sans-serif;
+  }
+  [data-dark="1"]{
+    --sf:#211f1e; --sf2:#2b2927;
+    --ink:#eceae6; --mut:#9b9792;
+    --ln:#eceae6; --lnsoft:#454340;
+    --acc-dark:#f26a53;
+    --paper:#211f1e;
+  }
+
+  body{font-family:var(--font);color:var(--ink);background:#dfe3e0}
+  #app{position:relative;width:100%;height:100dvh;overflow:hidden;background:#dfe3e0}
+  #map{position:absolute;inset:0;z-index:0}
+
+  [data-dark="1"] .leaflet-tile{filter:invert(1) hue-rotate(190deg) saturate(.3) brightness(.92) contrast(.92)}
+  [data-dark="1"] .leaflet-container{background:#1a1918}
+  .leaflet-container{font-family:var(--font)}
+  .leaflet-control-attribution{font-size:9px;background:rgba(243,242,242,.7)}
+  [data-dark="1"] .leaflet-control-attribution{background:rgba(33,31,30,.7);color:#9b9792}
+  [data-dark="1"] .leaflet-control-attribution a{color:#c9c5c0}
+
+  /* ---------- Brand-Chip ---------- */
+  .chip{position:absolute;top:12px;left:12px;z-index:500;background:var(--sf);color:var(--ink);
+    border:2px solid var(--ln);padding:10px 14px 9px;box-shadow:0 1px 4px rgba(0,0,0,.15);
+    max-width:calc(100% - 90px)}
+  .chip-t{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.12em;line-height:1}
+  .chip-t span.sq{width:9px;height:9px;background:var(--acc);flex:none}
+  .chip-s{margin-top:5px;font-size:9px;font-weight:600;letter-spacing:.1em;line-height:1;color:var(--mut);
+    font-variant-numeric:tabular-nums;white-space:nowrap}
+
+  /* ---------- Offline / Status-Strip ---------- */
+  .toast{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:700;
+    background:var(--sf);border:2px solid var(--ln);padding:8px 12px 7px;
+    font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    box-shadow:0 2px 8px rgba(0,0,0,.2);max-width:calc(100% - 24px);text-align:center;display:none}
+  .toast.on{display:block}
+  .toast.err{border-color:var(--bad);color:var(--bad)}
+
+  /* ---------- Floating Buttons ---------- */
+  .fabs{position:absolute;right:12px;bottom:28px;z-index:500;display:flex;flex-direction:column;
+    align-items:flex-end;gap:8px}
+  .fab{width:52px;height:52px;background:var(--sf);border:2px solid var(--ln);display:flex;
+    align-items:center;justify-content:center;cursor:pointer;color:var(--ink);padding:0;
+    box-shadow:0 1px 4px rgba(0,0,0,.15)}
+  .fab:hover{background:var(--sf2)}
+  .fab:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+  .fab[aria-pressed="true"]{background:var(--sf2)}
+  .fab.busy svg{animation:spin 1s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* ---------- Ebenen-Panel ---------- */
+  .panel{width:248px;background:var(--sf);border:2px solid var(--ln);box-shadow:0 4px 12px rgba(0,0,0,.18)}
+  .panel-h{display:flex;align-items:center;gap:8px;padding:10px 12px 9px;font-size:10px;font-weight:700;
+    letter-spacing:.12em;color:var(--mut);border-bottom:2px solid var(--ln)}
+  .panel-h span.sq{width:8px;height:8px;background:var(--acc);flex:none}
+  .row{display:flex;align-items:center;gap:10px;width:100%;min-height:48px;padding:0 12px;background:none;
+    border:none;border-bottom:1px solid var(--lnsoft);font:600 14px var(--font);color:var(--ink);
+    text-align:left;cursor:pointer}
+  .row:hover{background:var(--sf2)}
+  .row:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
+  .row.sep{border-bottom-width:2px;border-bottom-color:var(--ln)}
+  .row:last-child{border-bottom:none}
+  .row svg{flex:none;color:var(--mut)}
+  .row .lbl{flex:1}
+  .row .box{flex:none;width:12px;height:12px;border:2px solid var(--ln);background:transparent}
+  .row .box.on{background:var(--acc)}
+  .row .val{flex:none;font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--acc-dark);
+    font-variant-numeric:tabular-nums}
+
+  /* ---------- Bottom Sheet ---------- */
+  .sheet{position:absolute;left:0;right:0;bottom:0;height:72%;z-index:600;background:var(--sf);color:var(--ink);
+    border-top:2px solid var(--ln);box-shadow:0 -8px 28px rgba(0,0,0,.2);display:none;flex-direction:column}
+  .sheet.on{display:flex}
+  .sheet-head{flex:none;position:relative;cursor:grab;touch-action:none;padding:0 20px 10px}
+  .handle-wrap{display:flex;justify-content:center;padding:8px 0 10px}
+  .handle{width:36px;height:4px;background:var(--lnsoft)}
+  .close{position:absolute;top:10px;right:8px;width:44px;height:44px;background:none;border:none;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink);padding:0}
+  .close:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
+  .kicker{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--mut)}
+  .kicker span.sq{width:8px;height:8px;background:var(--acc);flex:none}
+  .sheet h2{margin:6px 44px 0 0;font-size:28px;font-weight:800;line-height:1.02;letter-spacing:-.015em}
+  .badges{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+  .badge{display:inline-block;padding:5px 8px 4px;font-size:11px;font-weight:800;letter-spacing:.06em;border:2px solid}
+  .stand{font-size:12px;color:var(--mut);font-variant-numeric:tabular-nums}
+  .crit{margin-top:8px;font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--acc-dark)}
+  .kpis{display:grid;grid-template-columns:1fr 1fr 1fr;margin-top:12px;border-top:2px solid var(--ln)}
+  .kpi{padding:8px 8px 2px 12px;border-right:1px solid var(--lnsoft)}
+  .kpi:first-child{padding-left:0}
+  .kpi:last-child{border-right:none}
+  .kpi-l{font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--mut)}
+  .kpi-v{margin-top:2px;font-size:19px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1}
+
+  /* Flussleiste */
+  .fluss{flex:none;padding:10px 20px 12px;border-top:2px solid var(--ln);display:none}
+  .sheet[data-full="1"] .fluss.avail{display:block}
+  .fluss-l{display:flex;justify-content:space-between;font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--mut)}
+  .track{position:relative;height:18px;margin-top:5px}
+  .track .base{position:absolute;left:0;right:0;top:8px;height:2px;background:var(--lnsoft)}
+  .track .tick{position:absolute;top:5px;width:1px;height:8px;background:var(--mut)}
+  .track .fill{position:absolute;top:8px;height:2px;background:var(--ink)}
+  .track .pin{position:absolute;top:3px;width:12px;height:12px;margin-left:-6px;background:var(--acc);border:2px solid var(--sf)}
+  .fluss-k{margin-top:2px;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums}
+  .fluss-k span{color:var(--mut);font-weight:500}
+
+  /* Inhalt */
+  .body{flex:1;min-height:0;overflow-y:hidden;padding:0 20px 24px;border-top:1px solid var(--lnsoft);
+    -webkit-overflow-scrolling:touch}
+  .sheet[data-full="1"] .body{overflow-y:auto}
+  .bullet{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--lnsoft);font-size:14px;line-height:1.45}
+  .bullet i{flex:none;width:6px;height:6px;background:var(--ink);margin-top:6px}
+  .def{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--lnsoft);font-size:14px}
+  .def dt{color:var(--mut)}
+  .def dd{margin:0;font-weight:600;text-align:right}
+  .def dd.num{font-variant-numeric:tabular-nums}
+  .flow{padding:11px 0;border-bottom:1px solid var(--lnsoft);font-size:14px;line-height:1.45}
+  .sec{margin-top:18px;padding-bottom:8px;border-bottom:2px solid var(--ln);font-size:10px;font-weight:700;
+    letter-spacing:.1em;color:var(--mut)}
+  .slp{padding:12px 0;border-bottom:1px solid var(--lnsoft)}
+  .slp-t{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+  .slp-n{font-size:15px;font-weight:700}
+  .slp-y{flex:none;font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--mut)}
+  .slp-m{margin-top:2px;font-size:12px;color:var(--mut);font-variant-numeric:tabular-nums}
+
+  a.act,button.act{display:flex;align-items:center;gap:10px;min-height:48px;margin-top:10px;width:100%;
+    border:2px solid var(--ln);background:none;padding:0 14px;text-decoration:none;color:var(--ink);
+    font:700 15px var(--font);font-variant-numeric:tabular-nums;cursor:pointer;text-align:left}
+  a.act:hover,button.act:hover{background:var(--sf2)}
+  a.act:focus-visible,button.act:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+  .act .grow{flex:1}
+  .act svg{flex:none}
+  .act.tel{min-height:52px;font-size:16px}
+  .act.soft{border-color:var(--lnsoft);color:var(--mut);font-weight:600;font-size:14px}
+  .act.soft:hover{color:var(--ink);border-color:var(--ln)}
+  .hint{margin-top:6px;font-size:11px;line-height:1.4;color:var(--mut)}
+
+  /* GPS-Marker */
+  .pos-halo{position:absolute;inset:-5px;border:2px solid var(--acc);border-radius:50%;
+    animation:posPulse 2.2s ease-out infinite}
+  @keyframes posPulse{0%{transform:scale(.55);opacity:.9}100%{transform:scale(1.6);opacity:0}}
+
+  @media (prefers-reduced-motion:reduce){
+    *{transition-duration:.01ms!important;animation:none!important}
+  }
+  @media (max-width:359px){
+    .sheet h2{font-size:24px}
+    .kpi-v{font-size:17px}
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="map" role="application" aria-label="Karte der Elbe-Tour"></div>
+
+  <div class="chip">
+    <div class="chip-t"><span class="sq"></span>ELBE-TOUR</div>
+    <div class="chip-s" id="chipSub">LADE DATEN …</div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <div class="fabs">
+    <button class="fab" id="btnLocate" aria-label="Meine Position">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+    </button>
+
+    <div class="panel" id="panel" hidden>
+      <div class="panel-h"><span class="sq"></span>EBENEN</div>
+      <button class="row" data-mode="standard">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3 3.6 5.4a1 1 0 0 0-.6.92V20l6-2.5 6 2.5 5.4-2.4a1 1 0 0 0 .6-.92V4l-6 2.5L9 4Z"/><path d="M9 3v14M15 6.5v14"/></svg>
+        <span class="lbl">Standard</span><span class="box" data-box="standard"></span>
+      </button>
+      <button class="row" data-mode="querungen">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6.5" y="6.5" width="11" height="11" transform="rotate(45 12 12)"/></svg>
+        <span class="lbl">Querungen hervorheben</span><span class="box" data-box="querungen"></span>
+      </button>
+      <button class="row sep" data-mode="schlaf">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9v11h14V9"/></svg>
+        <span class="lbl">Schlafplätze hervorheben</span><span class="box" data-box="schlaf"></span>
+      </button>
+      <button class="row" id="btnDir">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18"/><path d="m15 6 6 6-6 6"/></svg>
+        <span class="lbl">Richtung</span><span class="val" id="dirVal">QUELLE → HH</span>
+      </button>
+      <button class="row" id="btnDark">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        <span class="lbl">Dark Mode</span><span class="box" data-box="dark"></span>
+      </button>
+    </div>
+
+    <button class="fab" id="btnPanel" aria-label="Ebenen" aria-expanded="false">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 12 10 5 10-5"/><path d="m2 17 10 5 10-5"/></svg>
+    </button>
+  </div>
+
+  <div class="sheet" id="sheet" role="dialog" aria-modal="false" aria-labelledby="sheetName">
+    <div class="sheet-head" id="sheetHead">
+      <div class="handle-wrap"><span class="handle"></span></div>
+      <button class="close" id="btnClose" aria-label="Schließen">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="kicker"><span class="sq"></span><span id="sheetKicker"></span></div>
+      <h2 id="sheetName"></h2>
+      <div id="sheetBadges"></div>
+      <div class="kpis" id="sheetKpis"></div>
+    </div>
+    <div class="fluss" id="fluss">
+      <div class="fluss-l"><span id="flussA">QUELLE</span><span id="flussB">HAMBURG</span></div>
+      <div class="track" id="flussTrack"></div>
+      <div class="fluss-k" id="flussKm"></div>
+    </div>
+    <div class="body" id="sheetBody"></div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  // ------------------------------------------------------------------ Helpers
+  var $ = function (id) { return document.getElementById(id); };
+  var ENT = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return ENT[c]; }); }
+  function fmtKm(v) {
+    if (v == null) return null;
+    return (v % 1 ? v.toFixed(1).replace('.', ',') : String(v));
+  }
+  function fmtDate(iso) {
+    var d = String(iso || '').split('-');
+    return d.length === 3 ? d[2] + '.' + d[1] + '.' : '—';
+  }
+  function slug(s) {
+    return String(s).toLowerCase()
+      .replace(/[äàá]/g, 'a').replace(/[öó]/g, 'o').replace(/[üú]/g, 'u').replace(/ß/g, 'ss')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  }
+  function store(k, v) {
+    try { if (v === undefined) return localStorage.getItem('elbe.' + k); localStorage.setItem('elbe.' + k, v); }
+    catch (e) { return null; }
+  }
+  function haversine(a, b) {
+    var R = 6371, dLat = (b[0] - a[0]) * Math.PI / 180, dLon = (b[1] - a[1]) * Math.PI / 180;
+    var la1 = a[0] * Math.PI / 180, la2 = b[0] * Math.PI / 180;
+    var h = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(la1) * Math.cos(la2) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    return 2 * R * Math.asin(Math.sqrt(h));
+  }
+
+  var ICON = {
+    phone: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ec3013" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
+    ext: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17 17 7M8 7h9v9"/></svg>',
+    extAcc: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ec3013" stroke-width="2.5"><path d="M7 17 17 7M8 7h9v9"/></svg>',
+    down: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ec3013" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v13"/><path d="m6 11 6 6 6-6"/><path d="M4 21h16"/></svg>'
+  };
+
+  var STATUS = {
+    'gruen':       { c: 'var(--ok)',   raw: '#2f7d33', label: 'IN BETRIEB' },
+    'gruen-check': { c: 'var(--ok)',   raw: '#2f7d33', label: 'IN BETRIEB · LIVE PRÜFEN', hollow: true },
+    'gelb':        { c: 'var(--warn)', raw: '#b26a00', label: 'EINGESCHRÄNKT' },
+    'rot':         { c: 'var(--bad)',  raw: '#8f1d1d', label: 'AUSSER BETRIEB' }
+  };
+  var SLEEP_LABEL = {
+    'gruen': 'ZELTEN MÖGLICH',
+    'gelb':  'NICHT VERIFIZIERT',
+    'rot':   'NICHT EINPLANEN'
+  };
+  var KIND = {
+    bruecke: 'BRÜCKE', faehre: 'FÄHRE', gierfaehre: 'GIERFÄHRE', tunnel: 'TUNNEL',
+    radquerung: 'RADQUERUNG', ort: 'ETAPPENORT', poi: 'ORT', camping: 'CAMPING', pension: 'PENSION'
+  };
+
+  // ------------------------------------------------------------------ State
+  var S = {
+    sel: null, sheet: 'peek', mode: 'standard', panel: false,
+    dark: store('dark') === '1',
+    dir: store('dir') === 'up' ? 'up' : 'down',   // down = Quelle→HH, up = HH→Quelle
+    pos: null, dragDy: 0, dragging: false
+  };
+  var WPS = [], CXS = [], SLEEPS = [], ROUTE = [], TOTAL = 0, TICKS = [], STAGE_IDS = [];
+  var map, tiles, routeLayer, markerLayer, posMarker, watchId = null;
+
+  // ------------------------------------------------------------------ Boot
+  document.documentElement.setAttribute('data-dark', S.dark ? '1' : '0');
+  document.querySelector('meta[name="theme-color"]').setAttribute('content', S.dark ? '#211f1e' : '#f3f2f2');
+
+  initMap();
+  loadData();
+  wireUi();
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js').catch(function () {});
+    });
+  }
+
+  // ------------------------------------------------------------------ Map
+  function initMap() {
+    // center/zoom direkt in den Optionen: sonst hat die Karte kurz eine undefinierte
+    // Zoomstufe und der TileLayer legt eine Geister-Ebene auf maxZoom an.
+    map = L.map('map', {
+      zoomControl: false, attributionControl: true, tap: false,
+      center: [52.0, 12.4], zoom: 6
+    });
+    map.attributionControl.setPrefix(false);
+    tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19, attribution: '© OpenStreetMap',
+      // CORS-Modus, sonst sind die Kachel-Responses opaque und der Service Worker
+      // kann sie nicht für die Offline-Nutzung ablegen.
+      crossOrigin: 'anonymous'
+    }).addTo(map);
+    markerLayer = L.layerGroup().addTo(map);
+    map.on('click', closeSheet);
+
+    // Größenänderungen nachziehen (Adressleiste ein/aus, Rotation, Kaltstart im Hintergrund).
+    if (window.ResizeObserver) {
+      var last = 0;
+      new ResizeObserver(function () {
+        map.invalidateSize({ animate: false });
+        if (hasSize() && !last) { last = 1; fitAll(); }
+      }).observe($('map'));
+    }
+    window.addEventListener('orientationchange', function () {
+      setTimeout(function () { map.invalidateSize({ animate: false }); }, 250);
+    });
+  }
+
+  function hasSize() {
+    var s = map.getSize();
+    return s.x > 40 && s.y > 40;
+  }
+
+  // fitBounds auf einem 0px hohen Container rechnet auf maxZoom hoch und bleibt dort.
+  // Daher erst fitten, wenn der Container wirklich Fläche hat.
+  function fitAll(tries) {
+    if (!WPS.length) return;
+    if (!hasSize()) {
+      if ((tries || 0) < 20) return setTimeout(function () { fitAll((tries || 0) + 1); }, 120);
+      return;
+    }
+    map.fitBounds(L.latLngBounds(WPS.map(function (w) { return w.coords; })), { padding: [30, 30] });
+  }
+
+  function toast(msg, isErr, ms) {
+    var t = $('toast');
+    t.textContent = msg;
+    t.className = 'toast on' + (isErr ? ' err' : '');
+    if (toast._t) clearTimeout(toast._t);
+    if (ms !== 0) toast._t = setTimeout(function () { t.className = 'toast'; }, ms || 5000);
+  }
+
+  // ------------------------------------------------------------------ Daten
+  function loadData() {
+    // Warum die Daten ggf. nicht die frischen sind — der Service Worker sagt es per Header.
+    var why = { offline: false, broken: false, http: null };
+    Promise.all([
+      grab('waypoints.json'), grab('crossings.json')
+    ]).then(function (r) {
+      build(r[0], r[1]);
+      // Reihenfolge = Dringlichkeit: ein kaputter Server-Stand will behoben werden.
+      if (why.broken) toast('Datei auf dem Server ist defekt — zeige letzten guten Stand', true, 15000);
+      else if (why.http) toast('Server antwortet HTTP ' + why.http + ' — zeige letzten guten Stand', true, 15000);
+      else if (why.offline) toast('Offline — Datenstand aus dem Cache', false, 7000);
+    }).catch(function (err) {
+      toast(String((err && err.elbeMsg) || 'Daten konnten nicht geladen werden'), true, 0);
+      $('chipSub').textContent = 'KEINE DATEN';
+    });
+
+    function grab(url) {
+      return fetch(url, { cache: 'no-cache' }).then(function (res) {
+        if (res.headers.get('X-Elbe-Cache')) why.offline = true;
+        if (res.headers.get('X-Elbe-Stale')) why.broken = true;
+        if (res.headers.get('X-Elbe-Http')) why.http = res.headers.get('X-Elbe-Status') || '?';
+        if (!res.ok) {
+          // 503 heißt: der Service Worker hatte auch keinen guten Stand mehr.
+          throw tag(new Error(res.status),
+            why.broken ? url + ' ist defekt und nichts gespeichert — JSON prüfen'
+            : why.http ? url + ' nicht gefunden (HTTP ' + why.http + ') — Pfad prüfen'
+            : res.status === 503 ? 'Offline und noch nichts gespeichert — einmal mit Netz öffnen'
+            : url + ' nicht erreichbar (HTTP ' + res.status + ')');
+        }
+        return res.text().then(function (txt) {
+          try { return JSON.parse(txt); }
+          catch (e) { throw tag(e, url + ' ist defekt — JSON-Syntaxfehler'); }
+        });
+      });
+    }
+    function tag(err, msg) { err.elbeMsg = msg; return err; }
+  }
+
+  function build(wp, cx) {
+    WPS = wp.items || [];
+    CXS = cx.items || [];
+    TOTAL = (wp.meta && wp.meta.total) || (WPS.length ? WPS[WPS.length - 1].km : 0);
+    STAGE_IDS = (wp.meta && wp.meta.stages) || [];
+    CXS.forEach(function (c) { if (!c.statusDate && cx.meta) c.statusDate = cx.meta.statusDate; });
+
+    // Schlafplätze aus waypoint.sleep[] ableiten. Eigene Koordinaten sind nicht gepflegt,
+    // daher versetzter Marker beim Ort + Hinweis im Sheet.
+    SLEEPS = [];
+    WPS.forEach(function (w) {
+      (w.sleep || []).forEach(function (s, i) {
+        SLEEPS.push({
+          id: w.id + '-sl' + i, name: s.name, type: s.type || 'camping',
+          phone: s.phone || null, detourKm: (s.detourKm == null ? null : s.detourKm),
+          note: s.note || null, parent: w.name, parentId: w.id, km: w.km,
+          coords: [w.coords[0] + 0.010 + i * 0.007, w.coords[1] + 0.016],
+          posApprox: true
+        });
+      });
+    });
+
+    ROUTE = WPS.map(function (w) { return { km: w.km, coords: w.coords }; });
+    routeLayer = L.polyline(ROUTE.map(function (r) { return r.coords; }), {
+      color: '#3c5a68', weight: 3, opacity: .45, dashArray: '1 7', lineCap: 'round', interactive: false
+    }).addTo(map);
+    // Echten Verlauf nur laden, wenn die Daten ihn ankündigen (sonst 404 bei jedem Start).
+    if (wp.meta && wp.meta.routeFile) loadGeojsonRoute(wp.meta.routeFile);
+
+    var byId = {};
+    WPS.forEach(function (w) { byId[w.id] = w; });
+    TICKS = STAGE_IDS.map(function (id) { return byId[id] ? byId[id].km : null; })
+      .filter(function (k) { return k != null; });
+
+    fitAll();
+    renderChip();
+    renderMarkers();
+  }
+
+  // Optional: echter Elberadweg-Verlauf. Datei in waypoints.json unter meta.routeFile eintragen.
+  function loadGeojsonRoute(file) {
+    fetch(file).then(function (r) {
+      if (!r.ok) throw new Error('none');
+      return r.json();
+    }).then(function (gj) {
+      var line = extractLine(gj);
+      if (!line || line.length < 2) return;
+      if (routeLayer) map.removeLayer(routeLayer);
+      routeLayer = L.polyline(line, {
+        color: '#3c5a68', weight: 3, opacity: .45, dashArray: '1 7', lineCap: 'round', interactive: false
+      }).addTo(map);
+      // km-Achse entlang der echten Linie neu aufbauen (skaliert auf TOTAL).
+      var cum = [0], i;
+      for (i = 1; i < line.length; i++) cum.push(cum[i - 1] + haversine(line[i - 1], line[i]));
+      var len = cum[cum.length - 1] || 1;
+      ROUTE = line.map(function (c, j) { return { km: cum[j] / len * TOTAL, coords: c }; });
+      toast('Routenverlauf aus ' + file + ' geladen', false, 4000);
+    }).catch(function () { /* kein GPX nutzbar — Wegpunkt-Polyline bleibt */ });
+  }
+
+  function extractLine(gj) {
+    var out = [];
+    function walk(g) {
+      if (!g) return;
+      if (g.type === 'FeatureCollection') return (g.features || []).forEach(function (f) { walk(f.geometry); });
+      if (g.type === 'Feature') return walk(g.geometry);
+      if (g.type === 'LineString') return g.coordinates.forEach(function (c) { out.push([c[1], c[0]]); });
+      if (g.type === 'MultiLineString') return g.coordinates.forEach(function (l) {
+        l.forEach(function (c) { out.push([c[1], c[0]]); });
+      });
+      if (g.type === 'GeometryCollection') return (g.geometries || []).forEach(walk);
+    }
+    walk(gj);
+    return out;
+  }
+
+  // ------------------------------------------------------------------ Chip / Richtung
+  function down() { return S.dir === 'down'; }
+  function renderChip() {
+    $('chipSub').textContent = (down() ? 'QUELLE → HAMBURG' : 'HAMBURG → QUELLE') + ' · ' + TOTAL + ' KM';
+    $('dirVal').textContent = down() ? 'QUELLE → HH' : 'HH → QUELLE';
+    $('flussA').textContent = down() ? 'QUELLE' : 'HAMBURG';
+    $('flussB').textContent = down() ? 'HAMBURG' : 'QUELLE';
+  }
+
+  // ------------------------------------------------------------------ Marker
+  function paper() { return S.dark ? '#211f1e' : '#f3f2f2'; }
+  function inkRaw() { return S.dark ? '#eceae6' : '#201e1d'; }
+  function selRing() { return 'outline:3px solid #ec3013;outline-offset:2px;'; }
+  function divIcon(html, size) {
+    return L.divIcon({ html: html, className: '', iconSize: [size, size], iconAnchor: [size / 2, size / 2] });
+  }
+
+  function renderMarkers() {
+    if (!map || !markerLayer) return;
+    markerLayer.clearLayers();
+    var mode = S.mode, sel = S.sel, pap = paper();
+    var dimWp = mode !== 'standard', dimSl = mode === 'querungen', dimCx = mode === 'schlaf';
+
+    WPS.forEach(function (p) {
+      var isSel = sel && sel.id === p.id;
+      var s = dimWp ? 10 : 16;
+      var html = '<div style="box-sizing:border-box;width:' + s + 'px;height:' + s + 'px;border-radius:50%;'
+        + 'background:#3c5a68;border:2px solid ' + pap + ';box-shadow:0 1px 4px rgba(0,0,0,.3);'
+        + 'opacity:' + (dimWp && !isSel ? .35 : 1) + ';' + (isSel ? selRing() : '') + '"></div>';
+      L.marker(p.coords, { icon: divIcon(html, s + 10), keyboard: false, title: p.name })
+        .on('click', function () { select(p, 'wp'); }).addTo(markerLayer);
+    });
+
+    SLEEPS.forEach(function (p) {
+      var isSel = sel && sel.id === p.id;
+      var s = mode === 'schlaf' ? 30 : 22;
+      var g = Math.round(s * 0.6);
+      var html = '<div style="box-sizing:border-box;width:' + s + 'px;height:' + s + 'px;background:' + pap
+        + ';border:2px solid #3c5a68;box-shadow:0 1px 4px rgba(0,0,0,.3);display:flex;align-items:center;'
+        + 'justify-content:center;opacity:' + (dimSl && !isSel ? .35 : 1) + ';' + (isSel ? selRing() : '') + '">'
+        + '<svg width="' + g + '" height="' + g + '" viewBox="0 0 24 24" fill="none" stroke="#3c5a68" '
+        + 'stroke-width="3" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9v11h14V9"/></svg></div>';
+      L.marker(p.coords, { icon: divIcon(html, s + 10), keyboard: false, title: p.name })
+        .on('click', function () { select(p, 'sl'); }).addTo(markerLayer);
+    });
+
+    CXS.forEach(function (p) {
+      var isSel = sel && sel.id === p.id;
+      var st = STATUS[p.status] || STATUS.gruen;
+      var big = mode === 'querungen';
+      var s = big ? 30 : (p.critical ? 20 : 15);
+      var inner = Math.round(s * 0.72);
+      var showColor = big || p.critical || isSel;
+      // Kritische Querungen werden nie stark gedimmt — sie dürfen in keinem Modus untergehen.
+      var op = (dimCx && !isSel) ? (p.critical ? .7 : .35) : 1;
+      var html = '<div style="width:' + (s + 12) + 'px;height:' + (s + 12) + 'px;display:flex;align-items:center;'
+        + 'justify-content:center;opacity:' + op + '">'
+        + '<div style="box-sizing:border-box;width:' + inner + 'px;height:' + inner + 'px;transform:rotate(45deg);'
+        + 'background:' + (showColor ? st.raw : '#3c5a68') + ';border:2px solid ' + pap + ';'
+        + 'box-shadow:0 1px 4px rgba(0,0,0,.3);position:relative;'
+        + (p.critical ? 'outline:2px solid ' + inkRaw() + ';outline-offset:2px;' : '')
+        + (isSel ? selRing() : '') + '">'
+        + (st.hollow && showColor
+            ? '<div style="position:absolute;inset:28%;background:' + pap + ';border-radius:50%"></div>' : '')
+        + '</div></div>';
+      L.marker(p.coords, { icon: divIcon(html, s + 12), keyboard: false, title: p.name })
+        .on('click', function () { select(p, 'cx'); }).addTo(markerLayer);
+    });
+  }
+
+  // ------------------------------------------------------------------ Auswahl / Sheet
+  function select(p, kind) {
+    S.sel = normalize(p, kind);
+    S.sheet = 'peek'; S.dragDy = 0; S.dragging = false;
+    setPanel(false);
+    renderSheet();
+    renderMarkers();
+    var z = Math.max(map.getZoom(), 11);
+    var pt = map.project(L.latLng(p.coords), z).add([0, map.getSize().y * 0.14]);
+    map.setView(map.unproject(pt, z), z, { animate: true });
+  }
+
+  var closeTimer = null;
+  function closeSheet() {
+    if (!S.sel) return;
+    S.sel = null; S.dragDy = 0; S.dragging = false;
+    var el = $('sheet');
+    el.style.transition = 'transform .18s ease-out';
+    el.style.transform = 'translateY(100%)';
+    if (closeTimer) clearTimeout(closeTimer);
+    closeTimer = setTimeout(function () {
+      // Nur ausblenden, wenn in der Zwischenzeit nichts Neues gewählt wurde.
+      if (!S.sel) el.className = 'sheet';
+    }, 190);
+    renderMarkers();
+  }
+
+  function normalize(p, kind) {
+    var o = {
+      id: p.id, name: p.name, kind: kind, km: p.km, coords: p.coords,
+      critical: !!p.critical, estimate: !!p.estimate
+    };
+    if (kind === 'wp') {
+      o.kicker = 'WEGPUNKT · ' + (KIND[p.type] || 'ORT');
+      o.detour = p.poi ? p.poi.detourKm : null;
+      o.detourNote = p.poi ? p.poi.detourNote : null;
+      o.poi = p.poi || null;
+      o.notes = p.notes || [];
+      o.sleepStatus = p.sleepStatus || null;
+      o.sleepNote = p.sleepNote || null;
+      o.sleepList = (p.sleep || []).map(function (s) {
+        return {
+          name: s.name, typeLabel: KIND[s.type] || 'SCHLAFPLATZ', phone: s.phone || null,
+          detourKm: (s.detourKm == null ? null : s.detourKm), note: s.note || null
+        };
+      });
+    } else if (kind === 'sl') {
+      o.kicker = 'SCHLAFPLATZ · ' + (KIND[p.type] || 'CAMPING');
+      o.detour = p.detourKm; o.detourNote = null;
+      o.parent = p.parent; o.phone = p.phone; o.note = p.note;
+      o.posApprox = !!p.posApprox;
+    } else {
+      var st = STATUS[p.status] || STATUS.gruen;
+      o.kicker = 'QUERUNG · ' + (KIND[p.kind] || 'QUERUNG');
+      o.detour = 0; o.detourNote = null;
+      o.status = p.status; o.statusLabel = st.label; o.statusColor = st.c; o.hollow = !!st.hollow;
+      o.statusDate = p.statusDate; o.hours = p.hours; o.backup = p.backup; o.note = p.note;
+      o.demand = !!p.demand;
+      o.pegel = (p.status === 'gruen-check' || p.status === 'gelb');
+    }
+    return o;
+  }
+
+  function remaining(km) { return down() ? (TOTAL - km) : km; }
+
+  function renderSheet() {
+    var s = S.sel;
+    if (!s) return;
+    $('sheetKicker').textContent = s.kicker;
+    $('sheetName').textContent = s.name;
+
+    // Badges
+    var b = '';
+    if (s.kind === 'cx') {
+      b += '<div class="badges"><span class="badge" style="background:'
+        + (s.hollow ? 'transparent' : s.statusColor) + ';color:' + (s.hollow ? s.statusColor : '#f8f7f5')
+        + ';border-color:' + s.statusColor + '">' + esc(s.statusLabel) + '</span>'
+        + '<span class="stand">Stand: ' + esc(fmtDate(s.statusDate)) + '</span></div>';
+    } else if (s.kind === 'wp' && s.sleepStatus) {
+      var ss = STATUS[s.sleepStatus] || STATUS.gelb;
+      b += '<div class="badges"><span class="badge" style="background:transparent;color:' + ss.c
+        + ';border-color:' + ss.c + '">SCHLAFEN: ' + esc(SLEEP_LABEL[s.sleepStatus] || '') + '</span></div>';
+    }
+    if (s.critical) b += '<div class="crit">▲ EINZIGE QUERUNG IN DIESEM ABSCHNITT</div>';
+    $('sheetBadges').innerHTML = b;
+
+    // Kennzahlen
+    var detourStr = s.detour == null ? '—' : (s.detour ? '+' + fmtKm(s.detour) + ' km' : '0 km');
+    $('sheetKpis').innerHTML =
+      kpi('KM AB QUELLE', String(s.km)) +
+      kpi('UMWEG', detourStr) +
+      kpi(down() ? 'NOCH BIS HH' : 'NOCH BIS QUELLE', String(remaining(s.km)));
+
+    renderFluss(s);
+    $('sheetBody').innerHTML = bodyHtml(s);
+    wireBody(s);
+
+    var el = $('sheet');
+    var wasClosed = el.className.indexOf('on') === -1;
+    el.className = 'sheet on';
+    el.setAttribute('data-full', S.sheet === 'full' ? '1' : '0');
+    if (wasClosed) {
+      // Von unten einfahren: erst außerhalb setzen, dann in den Peek animieren.
+      // Doppelt ausgelöst — in einem Hintergrundtab feuert requestAnimationFrame nicht,
+      // und dann darf das Sheet nicht unsichtbar außerhalb hängen bleiben.
+      el.style.transition = 'none';
+      el.style.transform = 'translateY(100%)';
+      void el.offsetHeight;
+      requestAnimationFrame(applyTransform);
+      setTimeout(applyTransform, 50);
+    } else {
+      applyTransform();
+    }
+    $('sheetBody').scrollTop = 0;
+  }
+
+  function kpi(l, v) {
+    return '<div class="kpi"><div class="kpi-l">' + esc(l) + '</div><div class="kpi-v">' + esc(v) + '</div></div>';
+  }
+
+  function renderFluss(s) {
+    var f = $('fluss');
+    if (!TOTAL) { f.className = 'fluss'; return; }
+    f.className = 'fluss avail';
+    var pct = Math.max(0, Math.min(100, s.km / TOTAL * 100));
+    var shown = down() ? pct : 100 - pct;
+    var h = '<div class="base"></div>';
+    TICKS.forEach(function (km) {
+      var t = km / TOTAL * 100;
+      h += '<div class="tick" style="left:' + (down() ? t : 100 - t).toFixed(2) + '%"></div>';
+    });
+    h += down()
+      ? '<div class="fill" style="left:0;width:' + shown.toFixed(2) + '%"></div>'
+      : '<div class="fill" style="right:0;width:' + (100 - shown).toFixed(2) + '%"></div>';
+    h += '<div class="pin" style="left:' + shown.toFixed(2) + '%"></div>';
+    $('flussTrack').innerHTML = h;
+    $('flussKm').innerHTML = 'km ' + s.km + ' <span>von ' + TOTAL + '</span>';
+  }
+
+  // ------------------------------------------------------------------ Sheet-Inhalt
+  function bodyHtml(s) {
+    var h = '';
+
+    if (s.kind === 'wp') {
+      if (s.poi && s.poi.name) {
+        h += def('Sehenswert', esc(s.poi.name));
+        if (s.poi.relevance) h += def('Relevanz', s.poi.relevance + '/7', true);
+        if (s.poi.elbeM != null) h += def('An der Elbe', s.poi.elbeM === 0 ? 'direkt' : '≈ ' + s.poi.elbeM + ' m', true);
+      }
+      if (s.detourNote) h += def('Umweg', esc(s.detourNote));
+      (s.notes || []).forEach(function (n) {
+        h += '<div class="bullet"><i></i><span>' + esc(n) + '</span></div>';
+      });
+      if (s.sleepNote) h += '<div class="flow">' + esc(s.sleepNote) + '</div>';
+      if (s.sleepList && s.sleepList.length) {
+        h += '<div class="sec">SCHLAFEN</div>';
+        s.sleepList.forEach(function (x) {
+          h += '<div class="slp"><div class="slp-t"><span class="slp-n">' + esc(x.name) + '</span>'
+            + '<span class="slp-y">' + esc(x.typeLabel) + '</span></div>';
+          var meta = [];
+          if (x.detourKm != null) meta.push('Umweg +' + fmtKm(x.detourKm) + ' km');
+          if (x.note) meta.push(x.note);
+          if (meta.length) h += '<div class="slp-m">' + esc(meta.join(' · ')) + '</div>';
+          if (x.phone) h += telBtn(x.phone);
+          h += '</div>';
+        });
+      }
+    }
+
+    if (s.kind === 'sl') {
+      h += def('Bei', esc(s.parent));
+      if (s.note) h += '<div class="flow">' + esc(s.note) + '</div>';
+      if (s.phone) h += telBtn(s.phone);
+      if (s.posApprox) h += '<div class="hint">Markerposition ist nur beim Ort gesetzt — genaue Lage vor Ort oder telefonisch klären.</div>';
+    }
+
+    if (s.kind === 'cx') {
+      h += def('Betrieb', esc(s.hours || '—'), true);
+      if (s.demand) h += '<div class="hint">Pendel-/Bedarfsbetrieb innerhalb dieses Fensters — kein Taktfahrplan.</div>';
+      if (s.backup) h += def('Ersatz', esc(s.backup));
+      if (s.note) h += '<div class="flow">' + esc(s.note) + '</div>';
+      if (s.pegel) {
+        h += '<a class="act" href="' + esc(META_PEGEL) + '" target="_blank" rel="noopener">'
+          + '<span class="grow">Pegelstand prüfen</span>' + ICON.extAcc + '</a>';
+      }
+    }
+
+    // ---- Aktionen: aufs Gerät und in andere Apps
+    h += '<div class="sec">LOSFAHREN</div>';
+    h += '<button class="act" data-act="gpx"><span>' + ICON.down + '</span><span class="grow">GPX bis hierher</span></button>';
+    h += '<div class="hint" id="gpxHint">Teilen → SIGMA RIDE → Track importieren → auf den ROX übertragen.</div>';
+    h += '<a class="act soft" data-act="komoot" href="' + esc(komootUrl(s.coords)) + '" target="_blank" rel="noopener">'
+      + '<span class="grow">In Komoot planen</span>' + ICON.ext + '</a>';
+    h += '<a class="act soft" href="' + esc(navUrl(s.coords)) + '" target="_blank" rel="noopener">'
+      + '<span class="grow">In Karten-App öffnen</span>' + ICON.ext + '</a>';
+    if (s.estimate) {
+      h += '<div class="hint">Koordinaten und km-Wert sind Schätzungen aus der Planung — noch nicht gegen den GPX gerechnet.</div>';
+    }
+    return h;
+  }
+
+  var META_PEGEL = 'https://www.pegelonline.wsv.de';
+
+  function def(l, v, num) {
+    return '<dl class="def"><dt>' + l + '</dt><dd class="' + (num ? 'num' : '') + '">' + v + '</dd></dl>';
+  }
+  function telBtn(phone) {
+    return '<a class="act tel" href="tel:' + esc(String(phone).replace(/[\s\-()]/g, '')) + '">'
+      + ICON.phone + '<span>' + esc(phone) + '</span></a>';
+  }
+  function navUrl(c) {
+    return 'https://www.google.com/maps/dir/?api=1&destination=' + c[0].toFixed(6) + ',' + c[1].toFixed(6)
+      + '&travelmode=bicycling';
+  }
+  // Verifiziert: /plan/@lat,lng,zoomz öffnet den Planer auf dem Punkt (Handy: Komoot-App).
+  // Die p.N.loc-Parameter sind undokumentiert — werden sie ignoriert, bleibt der Link trotzdem gültig.
+  function komootUrl(c) {
+    var u = 'https://www.komoot.de/plan/@' + c[0].toFixed(6) + ',' + c[1].toFixed(6) + ',12.000z?sport=touringbicycle';
+    if (S.pos) {
+      u += '&p.0.loc=' + S.pos[0].toFixed(6) + ',' + S.pos[1].toFixed(6)
+         + '&p.1.loc=' + c[0].toFixed(6) + ',' + c[1].toFixed(6);
+    }
+    return u;
+  }
+
+  function wireBody(s) {
+    var g = $('sheetBody').querySelector('[data-act="gpx"]');
+    if (g) g.addEventListener('click', function () { exportGpx(s); });
+  }
+
+  // ------------------------------------------------------------------ GPX-Export
+  function nearestRouteKm(c) {
+    var best = null, bd = Infinity;
+    ROUTE.forEach(function (r) {
+      var d = haversine(c, r.coords);
+      if (d < bd) { bd = d; best = r; }
+    });
+    return best ? { km: best.km, dist: bd } : null;
+  }
+
+  // Manche Geräte/Apps stolpern über sehr lange Tracks. Ein echter Elberadweg-GPX
+  // hat leicht fünfstellig viele Punkte — hier gleichmäßig ausdünnen, Endpunkte behalten.
+  var GPX_MAX_POINTS = 2000;
+  function thin(pts, max) {
+    if (pts.length <= max) return pts;
+    var step = (pts.length - 1) / (max - 1), out = [], i;
+    for (i = 0; i < max; i++) out.push(pts[Math.round(i * step)]);
+    return out;
+  }
+
+  function routeSlice(fromKm, toKm) {
+    var lo = Math.min(fromKm, toKm), hi = Math.max(fromKm, toKm);
+    var pts = ROUTE.filter(function (r) { return r.km >= lo && r.km <= hi; })
+      .map(function (r) { return r.coords; });
+    if (toKm < fromKm) pts.reverse();
+    return thin(pts, GPX_MAX_POINTS);
+  }
+
+  function buildGpx(name, pts) {
+    var seg = pts.map(function (p) {
+      return '<trkpt lat="' + p[0].toFixed(6) + '" lon="' + p[1].toFixed(6) + '"/>';
+    }).join('\n');
+    return '<?xml version="1.0" encoding="UTF-8"?>\n'
+      + '<gpx version="1.1" creator="Elbe-Tour" xmlns="http://www.topografix.com/GPX/1/1">\n'
+      + '<metadata><name>' + esc(name) + '</name></metadata>\n'
+      + '<trk><name>' + esc(name) + '</name><trkseg>\n' + seg + '\n</trkseg></trk>\n</gpx>\n';
+  }
+
+  function exportGpx(s) {
+    var startKm, pts, fromLabel;
+    if (S.pos) {
+      var n = nearestRouteKm(S.pos);
+      startKm = n ? n.km : (down() ? 0 : TOTAL);
+      fromLabel = 'Position';
+    } else {
+      startKm = down() ? 0 : TOTAL;
+      fromLabel = down() ? 'Quelle' : 'Hamburg';
+    }
+    pts = routeSlice(startKm, s.km);
+    if (S.pos) pts.unshift(S.pos);
+    pts.push(s.coords);
+    // Duplikate direkt hintereinander entfernen
+    pts = pts.filter(function (p, i) {
+      return i === 0 || Math.abs(p[0] - pts[i - 1][0]) > 1e-6 || Math.abs(p[1] - pts[i - 1][1]) > 1e-6;
+    });
+    if (pts.length < 2) { toast('Kein Streckenabschnitt zwischen hier und dort', true); return; }
+
+    var name = fromLabel + ' → ' + s.name;
+    var xml = buildGpx(name, pts);
+    var fname = 'elbe-' + slug(s.name) + '.gpx';
+    var km = Math.round(Math.abs(s.km - startKm));
+
+    var file;
+    try { file = new File([xml], fname, { type: 'application/gpx+xml' }); } catch (e) { file = null; }
+    if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+      navigator.share({ files: [file], title: name })
+        .then(function () { toast('GPX geteilt · ' + km + ' km · ' + pts.length + ' Punkte'); })
+        .catch(function (err) { if (err && err.name !== 'AbortError') downloadBlob(xml, fname, km, pts.length); });
+    } else {
+      downloadBlob(xml, fname, km, pts.length);
+    }
+  }
+
+  function downloadBlob(xml, fname, km, n) {
+    var url = URL.createObjectURL(new Blob([xml], { type: 'application/gpx+xml' }));
+    var a = document.createElement('a');
+    a.href = url; a.download = fname;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    toast('GPX gespeichert · ' + km + ' km · ' + n + ' Punkte');
+  }
+
+  // ------------------------------------------------------------------ UI-Verdrahtung
+  function wireUi() {
+    $('btnPanel').addEventListener('click', function () { setPanel(!S.panel); });
+    $('btnClose').addEventListener('click', closeSheet);
+    $('btnLocate').addEventListener('click', locate);
+
+    Array.prototype.forEach.call(document.querySelectorAll('[data-mode]'), function (btn) {
+      btn.addEventListener('click', function () {
+        S.mode = btn.getAttribute('data-mode');
+        syncBoxes(); renderMarkers();
+      });
+    });
+    $('btnDark').addEventListener('click', function () {
+      S.dark = !S.dark; store('dark', S.dark ? '1' : '0');
+      document.documentElement.setAttribute('data-dark', S.dark ? '1' : '0');
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', S.dark ? '#211f1e' : '#f3f2f2');
+      syncBoxes(); renderMarkers();
+    });
+    $('btnDir').addEventListener('click', function () {
+      S.dir = down() ? 'up' : 'down'; store('dir', S.dir);
+      renderChip();
+      if (S.sel) renderSheet();
+    });
+
+    syncBoxes();
+    wireDrag();
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { if (S.panel) setPanel(false); else closeSheet(); }
+    });
+  }
+
+  function setPanel(open) {
+    S.panel = open;
+    $('panel').hidden = !open;
+    $('btnPanel').setAttribute('aria-expanded', open ? 'true' : 'false');
+    $('btnPanel').setAttribute('aria-pressed', open ? 'true' : 'false');
+  }
+
+  function syncBoxes() {
+    ['standard', 'querungen', 'schlaf'].forEach(function (m) {
+      var b = document.querySelector('[data-box="' + m + '"]');
+      if (b) b.className = 'box' + (S.mode === m ? ' on' : '');
+    });
+    var d = document.querySelector('[data-box="dark"]');
+    if (d) d.className = 'box' + (S.dark ? ' on' : '');
+  }
+
+  // ------------------------------------------------------------------ Geolocation
+  function locate() {
+    if (!navigator.geolocation) { toast('Gerät liefert keine Position', true); return; }
+    var btn = $('btnLocate');
+    btn.classList.add('busy');
+    navigator.geolocation.getCurrentPosition(function (p) {
+      btn.classList.remove('busy');
+      setPos([p.coords.latitude, p.coords.longitude]);
+      map.setView(S.pos, Math.max(map.getZoom(), 12), { animate: true });
+      if (watchId == null) {
+        watchId = navigator.geolocation.watchPosition(function (q) {
+          setPos([q.coords.latitude, q.coords.longitude]);
+        }, function () {}, { enableHighAccuracy: true, maximumAge: 10000, timeout: 20000 });
+      }
+    }, function (err) {
+      btn.classList.remove('busy');
+      toast(err && err.code === 1 ? 'Standortzugriff abgelehnt' : 'Position nicht verfügbar', true);
+    }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 30000 });
+  }
+
+  function setPos(c) {
+    S.pos = c;
+    var html = '<div style="width:20px;height:20px;position:relative">'
+      + '<div class="pos-halo"></div>'
+      + '<div style="position:absolute;inset:4px;background:#ec3013;border:2px solid ' + paper()
+      + ';border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,.4)"></div></div>';
+    if (posMarker) map.removeLayer(posMarker);
+    posMarker = L.marker(c, { icon: divIcon(html, 20), interactive: false, zIndexOffset: 1000 }).addTo(map);
+    if (S.sel) {
+      var k = $('sheetBody').querySelector('[data-act="komoot"]');
+      if (k) k.setAttribute('href', komootUrl(S.sel.coords));
+    }
+  }
+
+  // ------------------------------------------------------------------ Sheet-Gesten
+  var drag = null;
+  function peekOffset() { return 'calc(100% - 272px)'; }
+  function applyTransform() {
+    var el = $('sheet');
+    var base = S.sheet === 'full' ? '0px' : peekOffset();
+    el.style.transition = S.dragging ? 'none' : 'transform .18s ease-out';
+    el.style.transform = S.dragging
+      ? 'translateY(calc(' + base + ' + ' + S.dragDy + 'px))'
+      : 'translateY(' + base + ')';
+    el.setAttribute('data-full', S.sheet === 'full' ? '1' : '0');
+  }
+
+  function wireDrag() {
+    var head = $('sheetHead');
+    head.addEventListener('pointerdown', function (e) {
+      if (e.target.closest && e.target.closest('button,a')) return;
+      drag = { y0: e.clientY, moved: false };
+      S.dragging = true; S.dragDy = 0;
+      applyTransform();
+      window.addEventListener('pointermove', onMove);
+      window.addEventListener('pointerup', onUp);
+      window.addEventListener('pointercancel', onUp);
+    });
+
+    function onMove(e) {
+      if (!drag) return;
+      var dy = e.clientY - drag.y0;
+      if (Math.abs(dy) > 6) drag.moved = true;
+      if (S.sheet === 'full') dy = Math.max(-20, dy);
+      S.dragDy = dy;
+      applyTransform();
+    }
+    function onUp() {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+      window.removeEventListener('pointercancel', onUp);
+      if (!drag) return;
+      var dy = S.dragDy, cur = S.sheet, next = cur;
+      if (!drag.moved) next = cur === 'full' ? 'peek' : 'full';
+      else if (dy < -50) next = 'full';
+      else if (dy > 60) next = cur === 'full' ? 'peek' : null;
+      drag = null;
+      S.dragging = false; S.dragDy = 0;
+      if (next === null) { closeSheet(); return; }
+      S.sheet = next;
+      applyTransform();
+      if (next === 'peek') $('sheetBody').scrollTop = 0;
+    }
+  }
+})();
+</script>
+</body>
+</html>

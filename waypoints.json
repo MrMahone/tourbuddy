@@ -1,0 +1,812 @@
+{
+  "meta": {
+    "source": "tour-kontext.md Abschnitt 4 (Punkteraster, Arbeitsversion 1)",
+    "axis": "km ab Elbquelle",
+    "total": 1066,
+    "estimate": true,
+    "estimateNote": "Koordinaten = Ortszentrum bzw. genannter POI-Bereich, km = kumulierte Δ-Schätzungen aus tour-kontext.md. Vor Abfahrt geometrisch gegen den endgültigen GPX rechnen.",
+    "stages": ["dresden", "torgau", "magdeburg", "wittenberge"],
+    "routeFile": null
+  },
+  "items": [
+    {
+      "id": "quelle",
+      "name": "Elbquelle / Labská bouda",
+      "type": "poi",
+      "coords": [50.7725, 15.5417],
+      "km": 0,
+      "estimate": true,
+      "poi": { "name": "Elbquelle", "relevance": 7, "elbeM": 0, "detourKm": null, "detourNote": "Bestandteil des Starts" },
+      "notes": [
+        "Rad an der Labská bouda abstellen, ~1 km zu Fuß zur Quelle",
+        "Nationalpark Riesengebirge: Radfahren nur auf freigegebenen Routen",
+        "1.387 m ü. NN"
+      ],
+      "sleepStatus": "rot",
+      "sleepNote": "Nationalpark — hier nicht einplanen",
+      "sleep": []
+    },
+    {
+      "id": "spindleruv-mlyn",
+      "name": "Špindlerův Mlýn",
+      "type": "ort",
+      "coords": [50.7256, 15.6108],
+      "km": 17,
+      "estimate": true,
+      "poi": { "name": "Bílý most / Weiße Brücke", "relevance": 4, "elbeM": 0, "detourKm": 0.1, "detourNote": null },
+      "notes": ["Touristischer Ort, Versorgung vorhanden"],
+      "sleepStatus": "gelb",
+      "sleepNote": "Touristischer Ort; Camping separat prüfen",
+      "sleep": []
+    },
+    {
+      "id": "vrchlabi",
+      "name": "Vrchlabí",
+      "type": "ort",
+      "coords": [50.6280, 15.6081],
+      "km": 31,
+      "estimate": true,
+      "poi": { "name": "Schloss Vrchlabí", "relevance": 4, "elbeM": 350, "detourKm": 0.7, "detourNote": null },
+      "notes": ["Versorgung + Bahnanschluss (Notausstieg)"],
+      "sleepStatus": "gelb",
+      "sleepNote": "Versorgung/Bahn; nächste Möglichkeiten Richtung Hostinné",
+      "sleep": []
+    },
+    {
+      "id": "hostinne",
+      "name": "Hostinné",
+      "type": "ort",
+      "coords": [50.5417, 15.7222],
+      "km": 51,
+      "estimate": true,
+      "poi": { "name": "historischer Marktplatz", "relevance": 4, "elbeM": 250, "detourKm": 0.5, "detourNote": null },
+      "notes": [],
+      "sleepStatus": "gelb",
+      "sleepNote": null,
+      "sleep": []
+    },
+    {
+      "id": "dvur-kralove",
+      "name": "Dvůr Králové n. L. / Les Království",
+      "type": "ort",
+      "coords": [50.4319, 15.8142],
+      "km": 71,
+      "estimate": true,
+      "poi": { "name": "Les-Království-Talsperre", "relevance": 6, "elbeM": 0, "detourKm": 0, "detourNote": "praktisch auf der Route" },
+      "notes": ["Talsperre wird im offiziellen Routenführer als Highlight geführt"],
+      "sleepStatus": "gelb",
+      "sleepNote": null,
+      "sleep": []
+    },
+    {
+      "id": "jaromer",
+      "name": "Jaroměř / Josefov",
+      "type": "ort",
+      "coords": [50.3556, 15.9214],
+      "km": 94,
+      "estimate": true,
+      "poi": { "name": "Festung Josefov", "relevance": 6, "elbeM": 1000, "detourKm": 2.5, "detourNote": null },
+      "notes": ["Josefov wird im offiziellen Routenführer als Highlight geführt"],
+      "sleepStatus": "gelb",
+      "sleepNote": null,
+      "sleep": []
+    },
+    {
+      "id": "hradec-kralove",
+      "name": "Hradec Králové",
+      "type": "ort",
+      "coords": [50.2092, 15.8328],
+      "km": 112,
+      "estimate": true,
+      "poi": { "name": "Hučák-Wasserkraftwerk", "relevance": 5, "elbeM": 0, "detourKm": 0.2, "detourNote": null },
+      "notes": ["Große Stadt: volle Versorgung, Radläden, Bahn (Notausstieg)"],
+      "sleepStatus": "gelb",
+      "sleepNote": "Große Stadt",
+      "sleep": []
+    },
+    {
+      "id": "pardubice",
+      "name": "Pardubice",
+      "type": "ort",
+      "coords": [50.0343, 15.7812],
+      "km": 135,
+      "estimate": true,
+      "poi": { "name": "Automatické mlýny", "relevance": 5, "elbeM": 100, "detourKm": 0.65, "detourNote": null },
+      "notes": ["Große Stadt: Versorgung, Bahn (Notausstieg)"],
+      "sleepStatus": "gelb",
+      "sleepNote": "Große Stadt",
+      "sleep": []
+    },
+    {
+      "id": "prelouc",
+      "name": "Přelouč",
+      "type": "ort",
+      "coords": [50.0397, 15.5606],
+      "km": 157,
+      "estimate": true,
+      "poi": { "name": "Schleuse/Wasserkraftwerk Přelouč", "relevance": 3, "elbeM": 0, "detourKm": 0, "detourNote": null },
+      "notes": [],
+      "sleepStatus": "gelb",
+      "sleepNote": null,
+      "sleep": []
+    },
+    {
+      "id": "tynec",
+      "name": "Týnec nad Labem",
+      "type": "ort",
+      "coords": [50.0417, 15.3639],
+      "km": 177,
+      "estimate": true,
+      "poi": { "name": "historischer Ortskern", "relevance": 3, "elbeM": 100, "detourKm": 0.3, "detourNote": null },
+      "notes": [],
+      "sleepStatus": "gelb",
+      "sleepNote": null,
+      "sleep": []
+    },
+    {
+      "id": "kolin",
+      "name": "Kolín",
+      "type": "ort",
+      "coords": [50.0281, 15.2003],
+      "km": 194,
+      "estimate": true,
+      "poi": { "name": "St.-Bartholomäus-Bereich", "relevance": 5, "elbeM": 500, "detourKm": 1.0, "detourNote": null },
+      "notes": ["Große Versorgung, Bahn (Notausstieg)", "Abschnitt Kolín–Poděbrady–Nymburk gilt als besonders attraktiv"],
+      "sleepStatus": "gelb",
+      "sleepNote": "Große Versorgung",
+      "sleep": []
+    },
+    {
+      "id": "podebrady",
+      "name": "Poděbrady",
+      "type": "ort",
+      "coords": [50.1428, 15.1189],
+      "km": 214,
+      "estimate": true,
+      "poi": { "name": "Schloss Poděbrady", "relevance": 5, "elbeM": 50, "detourKm": 0.15, "detourNote": null },
+      "notes": [],
+      "sleepStatus": "gelb",
+      "sleepNote": null,
+      "sleep": []
+    },
+    {
+      "id": "nymburk",
+      "name": "Nymburk",
+      "type": "ort",
+      "coords": [50.1861, 15.0417],
+      "km": 224,
+      "estimate": true,
+      "poi": { "name": "mittelalterliche Stadtmauer", "relevance": 5, "elbeM": 50, "detourKm": 0.2, "detourNote": null },
+      "notes": ["Stadtbefestigung im offiziellen Routenführer hervorgehoben"],
+      "sleepStatus": "gelb",
+      "sleepNote": null,
+      "sleep": []
+    },
+    {
+      "id": "celakovice",
+      "name": "Čelákovice",
+      "type": "ort",
+      "coords": [50.1608, 14.7481],
+      "km": 251,
+      "estimate": true,
+      "poi": { "name": "Elbbrücke/Fußgängerbrücke", "relevance": 3, "elbeM": 0, "detourKm": 0, "detourNote": null },
+      "notes": [],
+      "sleepStatus": "gelb",
+      "sleepNote": null,
+      "sleep": []
+    },
+    {
+      "id": "brandys",
+      "name": "Brandýs nad Labem",
+      "type": "ort",
+      "coords": [50.1861, 14.6633],
+      "km": 266,
+      "estimate": true,
+      "poi": { "name": "Schloss Brandýs", "relevance": 5, "elbeM": 150, "detourKm": 0.4, "detourNote": null },
+      "notes": [],
+      "sleepStatus": "gelb",
+      "sleepNote": null,
+      "sleep": []
+    },
+    {
+      "id": "neratovice",
+      "name": "Neratovice",
+      "type": "ort",
+      "coords": [50.2589, 14.5178],
+      "km": 286,
+      "estimate": true,
+      "poi": { "name": "Elbufer/Brückenbereich", "relevance": 2, "elbeM": 0, "detourKm": 0, "detourNote": null },
+      "notes": ["Eher Funktionspunkt als Sehenswürdigkeit"],
+      "sleepStatus": "gelb",
+      "sleepNote": "Eher Funktionspunkt",
+      "sleep": []
+    },
+    {
+      "id": "melnik",
+      "name": "Mělník",
+      "type": "ort",
+      "coords": [50.3506, 14.4744],
+      "km": 303,
+      "estimate": true,
+      "poi": { "name": "Zusammenfluss-Aussicht / Schlossbereich", "relevance": 7, "elbeM": 450, "detourKm": 1.0, "detourNote": "+ etwas Höhe" },
+      "notes": ["Ab hier bewusst an der Elbe weiter — kein Moldau-Abstecher nach Prag", "Großer Pausenpunkt"],
+      "sleepStatus": "gelb",
+      "sleepNote": "Großer Pausenpunkt",
+      "sleep": []
+    },
+    {
+      "id": "roudnice",
+      "name": "Roudnice nad Labem",
+      "type": "ort",
+      "coords": [50.4258, 14.2606],
+      "km": 328,
+      "estimate": true,
+      "poi": { "name": "Schloss Roudnice", "relevance": 5, "elbeM": 250, "detourKm": 0.65, "detourNote": null },
+      "notes": [],
+      "sleepStatus": "gelb",
+      "sleepNote": null,
+      "sleep": []
+    },
+    {
+      "id": "litomerice",
+      "name": "Litoměřice",
+      "type": "ort",
+      "coords": [50.5344, 14.1319],
+      "km": 350,
+      "estimate": true,
+      "poi": { "name": "historischer Stadtkern", "relevance": 5, "elbeM": 600, "detourKm": 1.2, "detourNote": null },
+      "notes": ["Versorgung, Bahn (Notausstieg)"],
+      "sleepStatus": "gelb",
+      "sleepNote": null,
+      "sleep": []
+    },
+    {
+      "id": "usti",
+      "name": "Ústí nad Labem / Střekov",
+      "type": "ort",
+      "coords": [50.6580, 14.0400],
+      "km": 372,
+      "estimate": true,
+      "poi": { "name": "Burg Střekov", "relevance": 6, "elbeM": 100, "detourKm": 1.5, "detourNote": "+ Anstieg" },
+      "notes": ["Große Stadt: Versorgung, Bahn (Notausstieg)"],
+      "sleepStatus": "gelb",
+      "sleepNote": null,
+      "sleep": []
+    },
+    {
+      "id": "decin",
+      "name": "Děčín",
+      "type": "ort",
+      "coords": [50.7821, 14.2148],
+      "km": 394,
+      "estimate": true,
+      "poi": { "name": "Schloss Děčín", "relevance": 6, "elbeM": 100, "detourKm": 0.3, "detourNote": null },
+      "notes": ["Bahnhof (Notausstieg)", "Letzte Gelegenheit für CZK vor der Grenze"],
+      "sleepStatus": "gelb",
+      "sleepNote": null,
+      "sleep": []
+    },
+    {
+      "id": "hrensko",
+      "name": "Hřensko / Schmilka",
+      "type": "ort",
+      "coords": [50.8722, 14.2361],
+      "km": 408,
+      "estimate": true,
+      "poi": { "name": "Grenz-/Elbtalpunkt", "relevance": 4, "elbeM": 0, "detourKm": 0, "detourNote": null },
+      "notes": ["Grenzübertritt CZ → DE"],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Camping Hřensko", "type": "camping", "phone": null, "detourKm": null, "note": "direkt an der Elbe" }
+      ]
+    },
+    {
+      "id": "bad-schandau",
+      "name": "Bad Schandau",
+      "type": "ort",
+      "coords": [50.9186, 14.1547],
+      "km": 417,
+      "estimate": true,
+      "poi": { "name": "historischer Personenaufzug", "relevance": 5, "elbeM": 400, "detourKm": 0.8, "detourNote": null },
+      "notes": ["Bahnhof (Notausstieg, S-Bahn Richtung Dresden)", "Trinkwasser am Elbkai"],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Ostrauer Mühle", "type": "camping", "phone": null, "detourKm": 3.0, "note": "ca. 3 km von der Elbe" }
+      ]
+    },
+    {
+      "id": "koenigstein",
+      "name": "Königstein",
+      "type": "ort",
+      "coords": [50.9169, 14.0708],
+      "km": 426,
+      "estimate": true,
+      "poi": { "name": "Festung Königstein", "relevance": 7, "elbeM": 1000, "detourKm": null, "detourNote": "mehrere km + deutlicher Anstieg" },
+      "notes": ["Bahnhof (Notausstieg)"],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Camping / Treidlercamping Königstein", "type": "camping", "phone": null, "detourKm": null, "note": "unmittelbar im Elbtal" }
+      ]
+    },
+    {
+      "id": "pirna",
+      "name": "Pirna",
+      "type": "ort",
+      "coords": [50.9622, 13.9403],
+      "km": 442,
+      "estimate": true,
+      "poi": { "name": "Marktplatz / Canalettohaus", "relevance": 5, "elbeM": 500, "detourKm": 1.0, "detourNote": null },
+      "notes": ["Bahnhof (Notausstieg)", "Stadtbrücke als sicheres Fähren-Backup"],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Wasserplatz Pirna", "type": "camping", "phone": null, "detourKm": null, "note": "unmittelbar an der Elbe" }
+      ]
+    },
+    {
+      "id": "dresden",
+      "name": "Dresden",
+      "type": "ort",
+      "coords": [51.0530, 13.7410],
+      "km": 462,
+      "estimate": true,
+      "poi": { "name": "Brühlsche Terrasse", "relevance": 7, "elbeM": 50, "detourKm": 0.2, "detourNote": null },
+      "notes": [
+        "Bahnhof Neustadt + Hbf (Notausstieg)",
+        "Viele Radläden",
+        "Carolabrücke existiert nicht mehr — andere Brücken nutzen"
+      ],
+      "sleepStatus": "gruen",
+      "sleepNote": "Mehrere Optionen",
+      "sleep": [
+        { "name": "Camping Wostra", "type": "camping", "phone": null, "detourKm": null, "note": "elbnah" }
+      ]
+    },
+    {
+      "id": "radebeul",
+      "name": "Radebeul",
+      "type": "ort",
+      "coords": [51.1069, 13.6572],
+      "km": 474,
+      "estimate": true,
+      "poi": { "name": "Schloss Wackerbarth", "relevance": 4, "elbeM": 1000, "detourKm": 2.5, "detourNote": null },
+      "notes": ["S-Bahn (Notausstieg)"],
+      "sleepStatus": "gelb",
+      "sleepNote": "Dresden und Meißen als grüne Nachbarn",
+      "sleep": []
+    },
+    {
+      "id": "meissen",
+      "name": "Meißen",
+      "type": "ort",
+      "coords": [51.1633, 13.4736],
+      "km": 489,
+      "estimate": true,
+      "poi": { "name": "Albrechtsburg & Dom", "relevance": 7, "elbeM": 350, "detourKm": 1.0, "detourNote": "+ Anstieg" },
+      "notes": ["Bahnhof (Notausstieg)", "Supermarkt am Radweg"],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Camping Meißen", "type": "camping", "phone": null, "detourKm": null, "note": "direkt an der Elbe" }
+      ]
+    },
+    {
+      "id": "riesa",
+      "name": "Riesa",
+      "type": "ort",
+      "coords": [51.3078, 13.2925],
+      "km": 516,
+      "estimate": true,
+      "poi": { "name": "Elbpromenade / Hafenbereich", "relevance": 3, "elbeM": 0, "detourKm": 0, "detourNote": null },
+      "notes": ["Supermarkt direkt am Radweg", "Stadtbrücke = offizieller Ersatz für Fähre Riesa–Promnitz"],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Wassersportverein Riesa (Zeltplatz)", "type": "camping", "phone": null, "detourKm": null, "note": "an der Elbe" }
+      ]
+    },
+    {
+      "id": "strehla",
+      "name": "Strehla",
+      "type": "ort",
+      "coords": [51.3597, 13.2261],
+      "km": 528,
+      "estimate": true,
+      "poi": { "name": "historischer Markt / Schlossbereich", "relevance": 4, "elbeM": 200, "detourKm": 0.5, "detourNote": null },
+      "notes": [],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Camping Nixenbad", "type": "camping", "phone": null, "detourKm": null, "note": null }
+      ]
+    },
+    {
+      "id": "torgau",
+      "name": "Torgau",
+      "type": "ort",
+      "coords": [51.5597, 13.0047],
+      "km": 553,
+      "estimate": true,
+      "poi": { "name": "Schloss Hartenfels", "relevance": 7, "elbeM": 100, "detourKm": 0.3, "detourNote": null },
+      "notes": ["Bahnhof (Notausstieg)", "Straßenbrücke = sichere Querung"],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Campingplatz Torgau", "type": "camping", "phone": null, "detourKm": null, "note": null }
+      ]
+    },
+    {
+      "id": "elster",
+      "name": "Elster (Elbe)",
+      "type": "ort",
+      "coords": [51.7522, 12.8353],
+      "km": 580,
+      "estimate": true,
+      "poi": { "name": "Elbufer / Kanuverein", "relevance": 2, "elbeM": 0, "detourKm": 0, "detourNote": null },
+      "notes": [],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Kanuverein Harmonie", "type": "camping", "phone": null, "detourKm": null, "note": null }
+      ]
+    },
+    {
+      "id": "wittenberg",
+      "name": "Lutherstadt Wittenberg",
+      "type": "ort",
+      "coords": [51.8667, 12.6486],
+      "km": 595,
+      "estimate": true,
+      "poi": { "name": "Schlosskirche", "relevance": 7, "elbeM": 1000, "detourKm": 2.0, "detourNote": null },
+      "notes": ["Bahnhof (Notausstieg)", "Elbbrücke = sehr sichere Querung"],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Marina-Camp Elbe", "type": "camping", "phone": null, "detourKm": null, "note": "direkt an Elbe und Radweg" }
+      ]
+    },
+    {
+      "id": "coswig-anhalt",
+      "name": "Coswig (Anhalt)",
+      "type": "ort",
+      "coords": [51.8853, 12.4419],
+      "km": 615,
+      "estimate": true,
+      "poi": { "name": "Schloss Coswig", "relevance": 4, "elbeM": 100, "detourKm": 0.3, "detourNote": null },
+      "notes": ["Gierfähre Coswig–Wörlitz aktuell außer Betrieb — über Vockerode oder Wittenberg queren"],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Kanuverein Coswig", "type": "camping", "phone": null, "detourKm": null, "note": null }
+      ]
+    },
+    {
+      "id": "dessau",
+      "name": "Dessau-Roßlau",
+      "type": "ort",
+      "coords": [51.8331, 12.2464],
+      "km": 637,
+      "estimate": true,
+      "poi": { "name": "Kornhaus", "relevance": 6, "elbeM": 50, "detourKm": null, "detourNote": "gering" },
+      "notes": ["Bahnhof (Notausstieg)", "Supermarkt am Radweg"],
+      "sleepStatus": "gruen",
+      "sleepNote": "Campingmöglichkeiten im Stadtgebiet",
+      "sleep": []
+    },
+    {
+      "id": "aken",
+      "name": "Aken (Elbe)",
+      "type": "ort",
+      "coords": [51.8547, 12.0442],
+      "km": 657,
+      "estimate": true,
+      "poi": { "name": "Altstadt / St.-Nikolai", "relevance": 3, "elbeM": 300, "detourKm": 0.6, "detourNote": null },
+      "notes": [],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Boot & Campingservice Aken", "type": "camping", "phone": null, "detourKm": null, "note": "Elb-km 276" }
+      ]
+    },
+    {
+      "id": "barby",
+      "name": "Barby",
+      "type": "ort",
+      "coords": [51.9678, 11.8797],
+      "km": 679,
+      "estimate": true,
+      "poi": { "name": "Elbe-Saale-Mündungsbereich", "relevance": 4, "elbeM": 0, "detourKm": null, "detourNote": "gering" },
+      "notes": [],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Seepark Barby", "type": "camping", "phone": null, "detourKm": null, "note": "nicht unmittelbar am Elbufer" }
+      ]
+    },
+    {
+      "id": "schoenebeck",
+      "name": "Schönebeck",
+      "type": "ort",
+      "coords": [52.0181, 11.7378],
+      "km": 694,
+      "estimate": true,
+      "poi": { "name": "Salzblume", "relevance": 4, "elbeM": 0, "detourKm": 0, "detourNote": null },
+      "notes": ["Elbbrücke = verlässliche Querung", "Bahn (Notausstieg)"],
+      "sleepStatus": "gelb",
+      "sleepNote": "Mehrere Campingplätze im Umfeld, nichts unmittelbar verifiziert",
+      "sleep": []
+    },
+    {
+      "id": "magdeburg",
+      "name": "Magdeburg",
+      "type": "ort",
+      "coords": [52.1275, 11.6289],
+      "km": 714,
+      "estimate": true,
+      "poi": { "name": "Magdeburger Dom", "relevance": 7, "elbeM": 200, "detourKm": 0.5, "detourNote": null },
+      "notes": ["Hauptbahnhof (Notausstieg)", "Mehrere Elbbrücken — Querung unkritisch", "Pflaster in der Altstadt"],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Petriförder (Stellplatz)", "type": "camping", "phone": null, "detourKm": null, "note": "direkt an der Elbe" }
+      ]
+    },
+    {
+      "id": "hohenwarthe",
+      "name": "Hohenwarthe",
+      "type": "ort",
+      "coords": [52.2247, 11.7256],
+      "km": 734,
+      "estimate": true,
+      "poi": { "name": "Wasserstraßenkreuz / Kanalbrücke", "relevance": 7, "elbeM": 750, "detourKm": 1.5, "detourNote": null },
+      "notes": ["Ab hier wieder ländlich — Versorgung vorausplanen"],
+      "sleepStatus": "gelb",
+      "sleepNote": null,
+      "sleep": []
+    },
+    {
+      "id": "bertingen-bittkau",
+      "name": "Bertingen / Bittkau",
+      "type": "ort",
+      "coords": [52.3675, 11.8544],
+      "km": 756,
+      "estimate": true,
+      "poi": { "name": "Elblandschaft", "relevance": 2, "elbeM": 250, "detourKm": null, "detourNote": "gering" },
+      "notes": [],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Family-Camp Kellerwiehl", "type": "camping", "phone": null, "detourKm": null, "note": null },
+        { "name": "Camping Bertingen", "type": "camping", "phone": null, "detourKm": null, "note": null }
+      ]
+    },
+    {
+      "id": "tangermuende",
+      "name": "Tangermünde",
+      "type": "ort",
+      "coords": [52.5450, 11.9700],
+      "km": 778,
+      "estimate": true,
+      "poi": { "name": "Elbtor / Stadtbefestigung", "relevance": 7, "elbeM": 50, "detourKm": 0.2, "detourNote": null },
+      "notes": ["Elbbrücke B188 = sichere Querung, auch Ersatz für Fähre Arneburg"],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Wassersportverein / Naturcamping Tangermünde", "type": "camping", "phone": null, "detourKm": null, "note": null }
+      ]
+    },
+    {
+      "id": "arneburg",
+      "name": "Arneburg",
+      "type": "ort",
+      "coords": [52.6883, 11.9756],
+      "km": 798,
+      "estimate": true,
+      "poi": { "name": "Elbhang / Altstadtbereich", "relevance": 4, "elbeM": 100, "detourKm": 0.3, "detourNote": null },
+      "notes": ["Fähre Arneburg wegen Niedrigwasser eingestellt — Brücke Tangermünde oder Sandau nutzen"],
+      "sleepStatus": "gelb",
+      "sleepNote": null,
+      "sleep": []
+    },
+    {
+      "id": "werben",
+      "name": "Werben (Elbe)",
+      "type": "ort",
+      "coords": [52.7208, 11.9944],
+      "km": 811,
+      "estimate": true,
+      "poi": { "name": "historischer Ortskern", "relevance": 5, "elbeM": 1000, "detourKm": 2.0, "detourNote": null },
+      "notes": ["Fähre Räbel in der Nähe (lange Betriebszeiten)"],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Campingplatz „Am Elberadweg“", "type": "camping", "phone": null, "detourKm": null, "note": null }
+      ]
+    },
+    {
+      "id": "sandau-havelberg",
+      "name": "Sandau / Havelberg",
+      "type": "ort",
+      "coords": [52.8264, 12.0781],
+      "km": 827,
+      "estimate": true,
+      "poi": { "name": "Havelberger Dom", "relevance": 6, "elbeM": null, "detourKm": null, "detourNote": "mehrere km, je nach Uferseite relevant" },
+      "notes": ["Havelmündung", "Elbbrücke Sandau = sichere Alternative zu den Fähren"],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Campinginsel Havelberg", "type": "camping", "phone": null, "detourKm": null, "note": null }
+      ]
+    },
+    {
+      "id": "wittenberge",
+      "name": "Wittenberge",
+      "type": "ort",
+      "coords": [52.9950, 11.7539],
+      "km": 856,
+      "estimate": true,
+      "poi": { "name": "Alte Ölmühle", "relevance": 5, "elbeM": 100, "detourKm": 0.3, "detourNote": null },
+      "notes": [
+        "Bahnhof (Notausstieg, ICE-Halt)",
+        "Supermarkt am Radweg",
+        "Radquerung Eisenbahnbrücke: Bohlenweg 2025 saniert, wieder frei"
+      ],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Friedensteich", "type": "camping", "phone": null, "detourKm": null, "note": null },
+        { "name": "elbwärts 455", "type": "camping", "phone": null, "detourKm": null, "note": null }
+      ]
+    },
+    {
+      "id": "schnackenburg",
+      "name": "Schnackenburg / Gartow",
+      "type": "ort",
+      "coords": [53.0378, 11.5697],
+      "km": 876,
+      "estimate": true,
+      "poi": { "name": "Grenzlandmuseum Schnackenburg", "relevance": 5, "elbeM": 100, "detourKm": 0.2, "detourNote": null },
+      "notes": ["Fähre Schnackenburg–Lütkenwisch aktuell außer Betrieb"],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Laascher See", "type": "camping", "phone": null, "detourKm": null, "note": null },
+        { "name": "Vietze", "type": "camping", "phone": null, "detourKm": null, "note": "in der Umgebung" }
+      ]
+    },
+    {
+      "id": "lenzen",
+      "name": "Lenzen (Elbe)",
+      "type": "ort",
+      "coords": [53.0958, 11.4736],
+      "km": 889,
+      "estimate": true,
+      "poi": { "name": "Burg Lenzen", "relevance": 5, "elbeM": 1750, "detourKm": 3.5, "detourNote": null },
+      "notes": ["Fähre Lenzen–Pevestorf wasserstandsabhängig — vorher checken"],
+      "sleepStatus": "gelb",
+      "sleepNote": "Camping-/Stellmöglichkeiten nicht verifiziert; Alternativen Wittenberge oder Vietze",
+      "sleep": []
+    },
+    {
+      "id": "doemitz",
+      "name": "Dömitz",
+      "type": "ort",
+      "coords": [53.1417, 11.2528],
+      "km": 913,
+      "estimate": true,
+      "poi": { "name": "Festung Dömitz", "relevance": 6, "elbeM": 150, "detourKm": 0.4, "detourNote": null },
+      "notes": [
+        "Wasser auffüllen — letzter größerer Versorgungspunkt vor Hitzacker",
+        "Straßenbrücke = kritische Querung, alle Nordfähren derzeit aus"
+      ],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Wasserwanderzentrum Dömitz", "type": "camping", "phone": null, "detourKm": null, "note": null }
+      ]
+    },
+    {
+      "id": "hitzacker",
+      "name": "Hitzacker",
+      "type": "ort",
+      "coords": [53.1519, 11.0453],
+      "km": 936,
+      "estimate": true,
+      "poi": { "name": "Altstadtinsel", "relevance": 5, "elbeM": 100, "detourKm": null, "detourNote": "gering" },
+      "notes": ["Fähre Hitzacker–Bitter wegen Niedrigwasser aus (mind. bis 23.08.)"],
+      "sleepStatus": "gruen",
+      "sleepNote": "Campingmöglichkeiten vorhanden",
+      "sleep": []
+    },
+    {
+      "id": "neu-darchau",
+      "name": "Neu Darchau",
+      "type": "ort",
+      "coords": [53.2317, 10.8886],
+      "km": 956,
+      "estimate": true,
+      "poi": { "name": "Elbfähre / Ufer", "relevance": 2, "elbeM": 0, "detourKm": 0, "detourNote": null },
+      "notes": ["Fähre Neu Darchau–Darchau wegen Niedrigwasser aus (mind. bis 23.08.)"],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Campingplatz Elbufer (Klein Kühren)", "type": "camping", "phone": null, "detourKm": null, "note": null }
+      ]
+    },
+    {
+      "id": "bleckede",
+      "name": "Bleckede",
+      "type": "ort",
+      "coords": [53.2872, 10.7358],
+      "km": 977,
+      "estimate": true,
+      "poi": { "name": "Schloss Bleckede / Biosphaerium", "relevance": 4, "elbeM": 500, "detourKm": 1.0, "detourNote": null },
+      "notes": ["Fähre Bleckede–Neu-Bleckede außer Betrieb (mind. bis 23.08.)"],
+      "sleepStatus": "gruen",
+      "sleepNote": "Mehrere Campingplätze im Raum Bleckede",
+      "sleep": []
+    },
+    {
+      "id": "lauenburg",
+      "name": "Lauenburg/Elbe",
+      "type": "ort",
+      "coords": [53.3714, 10.5583],
+      "km": 1002,
+      "estimate": true,
+      "poi": { "name": "historische Unterstadt", "relevance": 6, "elbeM": 0, "detourKm": 0, "detourNote": null },
+      "notes": ["Bahnhof (Notausstieg)", "Elbbrücke B209 = zentrale sichere Querung"],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Bullendorf", "type": "camping", "phone": null, "detourKm": null, "note": "nahe Alternative" },
+        { "name": "Artlenburg", "type": "camping", "phone": null, "detourKm": null, "note": "nahe Alternative" }
+      ]
+    },
+    {
+      "id": "geesthacht",
+      "name": "Geesthacht / Tesperhude",
+      "type": "ort",
+      "coords": [53.4278, 10.3717],
+      "km": 1021,
+      "estimate": true,
+      "poi": { "name": "Geesthachter Staustufe", "relevance": 4, "elbeM": 0, "detourKm": null, "detourNote": "abhängig von der Uferseite, gering" },
+      "notes": ["Querung über die Staustufe — radwegabhängig"],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Camping Hohes Elbufer", "type": "camping", "phone": null, "detourKm": null, "note": "direkt an der Elbe" }
+      ]
+    },
+    {
+      "id": "zollenspieker",
+      "name": "Zollenspieker",
+      "type": "ort",
+      "coords": [53.3986, 10.2028],
+      "km": 1038,
+      "estimate": true,
+      "poi": { "name": "Zollenspieker / Fährstelle", "relevance": 4, "elbeM": 0, "detourKm": 0, "detourNote": null },
+      "notes": ["Pendelfähre nach Hoopte"],
+      "sleepStatus": "gruen",
+      "sleepNote": null,
+      "sleep": [
+        { "name": "Stover Strand", "type": "camping", "phone": null, "detourKm": null, "note": "auf der Gegenseite" }
+      ]
+    },
+    {
+      "id": "hamburg",
+      "name": "Hamburg Zentrum",
+      "type": "poi",
+      "coords": [53.5413, 9.9842],
+      "km": 1066,
+      "estimate": true,
+      "poi": { "name": "Elbphilharmonie", "relevance": 7, "elbeM": 0, "detourKm": 0, "detourNote": "praktisch keiner bei passender Hineinroutung" },
+      "notes": ["Ziel bzw. Startpunkt", "Fern- und S-Bahn", "Alter Elbtunnel als beste Radquerung"],
+      "sleepStatus": "gelb",
+      "sleepNote": "Ziel — Unterkunft separat",
+      "sleep": []
+    }
+  ]
+}
