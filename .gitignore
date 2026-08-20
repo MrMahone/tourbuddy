@@ -2,3 +2,10 @@
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Overpass-Cache der Datenpipeline (regenerierbar, mehrere MB)
+tools/.cache/
+# Backups der Register vor dem OSM-Abgleich
+*.json.bak
+__pycache__/
+*.pyc

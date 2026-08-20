@@ -205,9 +205,13 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6.5" y="6.5" width="11" height="11" transform="rotate(45 12 12)"/></svg>
         <span class="lbl">Querungen hervorheben</span><span class="box" data-box="querungen"></span>
       </button>
-      <button class="row sep" data-mode="schlaf">
+      <button class="row" data-mode="schlaf">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9v11h14V9"/></svg>
         <span class="lbl">Schlafplätze hervorheben</span><span class="box" data-box="schlaf"></span>
+      </button>
+      <button class="row sep" data-mode="baden">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 15c2 0 3-1.5 5-1.5s3 1.5 5 1.5 3-1.5 5-1.5 3 1.5 5 1.5"/><path d="M2 20c2 0 3-1.5 5-1.5s3 1.5 5 1.5 3-1.5 5-1.5 3 1.5 5 1.5"/><circle cx="12" cy="6" r="2.5"/></svg>
+        <span class="lbl">Baden hervorheben</span><span class="box" data-box="baden"></span>
       </button>
       <button class="row" id="btnDir">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18"/><path d="m15 6 6 6-6 6"/></svg>
@@ -297,7 +301,8 @@
   };
   var KIND = {
     bruecke: 'BRÜCKE', faehre: 'FÄHRE', gierfaehre: 'GIERFÄHRE', tunnel: 'TUNNEL',
-    radquerung: 'RADQUERUNG', ort: 'ETAPPENORT', poi: 'ORT', camping: 'CAMPING', pension: 'PENSION'
+    radquerung: 'RADQUERUNG', ort: 'ETAPPENORT', poi: 'ORT', camping: 'CAMPING', pension: 'PENSION',
+    elbe: 'ELBSTRAND', see: 'SEE'
   };
 
   // ------------------------------------------------------------------ State
@@ -307,7 +312,8 @@
     dir: store('dir') === 'up' ? 'up' : 'down',   // down = Quelle→HH, up = HH→Quelle
     pos: null, dragDy: 0, dragging: false
   };
-  var WPS = [], CXS = [], SLEEPS = [], ROUTE = [], TOTAL = 0, TICKS = [], STAGE_IDS = [];
+  var WPS = [], CXS = [], SLEEPS = [], SWIM = [], ROUTE = [], TOTAL = 0, TICKS = [], STAGE_IDS = [];
+  var SWIM_WARN = '';
   var map, tiles, routeLayer, markerLayer, posMarker, watchId = null;
 
   // ------------------------------------------------------------------ Boot
@@ -383,9 +389,11 @@
     // Warum die Daten ggf. nicht die frischen sind — der Service Worker sagt es per Header.
     var why = { offline: false, broken: false, http: null };
     Promise.all([
-      grab('waypoints.json'), grab('crossings.json')
+      grab('waypoints.json'), grab('crossings.json'),
+      // Baden ist optional: eine fehlende oder defekte swim.json darf die Karte nicht kippen.
+      grab('swim.json').catch(function () { return { items: [] }; })
     ]).then(function (r) {
-      build(r[0], r[1]);
+      build(r[0], r[1], r[2]);
       // Reihenfolge = Dringlichkeit: ein kaputter Server-Stand will behoben werden.
       if (why.broken) toast('Datei auf dem Server ist defekt — zeige letzten guten Stand', true, 15000);
       else if (why.http) toast('Server antwortet HTTP ' + why.http + ' — zeige letzten guten Stand', true, 15000);
@@ -417,24 +425,28 @@
     function tag(err, msg) { err.elbeMsg = msg; return err; }
   }
 
-  function build(wp, cx) {
+  function build(wp, cx, sw) {
     WPS = wp.items || [];
     CXS = cx.items || [];
     TOTAL = (wp.meta && wp.meta.total) || (WPS.length ? WPS[WPS.length - 1].km : 0);
     STAGE_IDS = (wp.meta && wp.meta.stages) || [];
     CXS.forEach(function (c) { if (!c.statusDate && cx.meta) c.statusDate = cx.meta.statusDate; });
+    SWIM = (sw && sw.items) || [];
+    SWIM_WARN = (sw && sw.meta && sw.meta.warn) || '';
 
-    // Schlafplätze aus waypoint.sleep[] ableiten. Eigene Koordinaten sind nicht gepflegt,
-    // daher versetzter Marker beim Ort + Hinweis im Sheet.
+    // Schlafplätze aus waypoint.sleep[] ableiten. Wo die Datenpflege echte
+    // Koordinaten liefert (aus OSM), werden die genommen; sonst versetzt beim Ort.
     SLEEPS = [];
     WPS.forEach(function (w) {
       (w.sleep || []).forEach(function (s, i) {
+        var real = s.coords && s.coords.length === 2;
         SLEEPS.push({
           id: w.id + '-sl' + i, name: s.name, type: s.type || 'camping',
           phone: s.phone || null, detourKm: (s.detourKm == null ? null : s.detourKm),
           note: s.note || null, parent: w.name, parentId: w.id, km: w.km,
-          coords: [w.coords[0] + 0.010 + i * 0.007, w.coords[1] + 0.016],
-          posApprox: true
+          source: s.source || null,
+          coords: real ? s.coords : [w.coords[0] + 0.010 + i * 0.007, w.coords[1] + 0.016],
+          posApprox: !real
         });
       });
     });
@@ -462,34 +474,59 @@
       if (!r.ok) throw new Error('none');
       return r.json();
     }).then(function (gj) {
-      var line = extractLine(gj);
-      if (!line || line.length < 2) return;
+      var lines = extractLines(gj);
+      var primary = null, others = [];
+      lines.forEach(function (l) {
+        if (!primary && l.bank === 'primary') primary = l.pts;
+        else if (l.pts.length > 1) others.push(l.pts);
+      });
+      if (!primary) primary = (lines[0] || {}).pts;
+      if (!primary || primary.length < 2) return;
       if (routeLayer) map.removeLayer(routeLayer);
-      routeLayer = L.polyline(line, {
-        color: '#3c5a68', weight: 3, opacity: .45, dashArray: '1 7', lineCap: 'round', interactive: false
-      }).addTo(map);
+      // Gegenufer zuerst und schwächer: es ist die Alternative, nicht die Achse.
+      var group = [];
+      others.forEach(function (pts) {
+        group.push(L.polyline(pts, { color: '#3c5a68', weight: 2, opacity: .22,
+          dashArray: '1 6', lineCap: 'round', interactive: false }));
+      });
+      group.push(L.polyline(primary, { color: '#3c5a68', weight: 3, opacity: .45,
+        dashArray: '1 7', lineCap: 'round', interactive: false }));
+      routeLayer = L.layerGroup(group).addTo(map);
+      var line = primary;
       // km-Achse entlang der echten Linie neu aufbauen (skaliert auf TOTAL).
       var cum = [0], i;
       for (i = 1; i < line.length; i++) cum.push(cum[i - 1] + haversine(line[i - 1], line[i]));
       var len = cum[cum.length - 1] || 1;
       ROUTE = line.map(function (c, j) { return { km: cum[j] / len * TOTAL, coords: c }; });
-      toast('Routenverlauf aus ' + file + ' geladen', false, 4000);
+      // Bewusst keine Meldung: die Linie ist selbst die Rückmeldung, und ein Toast
+      // hier würde den wichtigeren Offline-Hinweis überschreiben.
     }).catch(function () { /* kein GPX nutzbar — Wegpunkt-Polyline bleibt */ });
   }
 
-  function extractLine(gj) {
+  // Jede Linie einzeln zurückgeben, damit Primärachse und Gegenufer getrennt bleiben.
+  function extractLines(gj) {
     var out = [];
-    function walk(g) {
+    function geom(g, bank) {
       if (!g) return;
-      if (g.type === 'FeatureCollection') return (g.features || []).forEach(function (f) { walk(f.geometry); });
-      if (g.type === 'Feature') return walk(g.geometry);
-      if (g.type === 'LineString') return g.coordinates.forEach(function (c) { out.push([c[1], c[0]]); });
-      if (g.type === 'MultiLineString') return g.coordinates.forEach(function (l) {
-        l.forEach(function (c) { out.push([c[1], c[0]]); });
-      });
-      if (g.type === 'GeometryCollection') return (g.geometries || []).forEach(walk);
+      if (g.type === 'LineString') {
+        out.push({ bank: bank, pts: g.coordinates.map(function (c) { return [c[1], c[0]]; }) });
+      } else if (g.type === 'MultiLineString') {
+        g.coordinates.forEach(function (l) {
+          out.push({ bank: bank, pts: l.map(function (c) { return [c[1], c[0]]; }) });
+        });
+      } else if (g.type === 'GeometryCollection') {
+        (g.geometries || []).forEach(function (x) { geom(x, bank); });
+      }
     }
-    walk(gj);
+    if (gj.type === 'FeatureCollection') {
+      (gj.features || []).forEach(function (f) {
+        geom(f.geometry, (f.properties || {}).bank);
+      });
+    } else if (gj.type === 'Feature') {
+      geom(gj.geometry, (gj.properties || {}).bank);
+    } else {
+      geom(gj, null);
+    }
     return out;
   }
 
@@ -514,7 +551,10 @@
     if (!map || !markerLayer) return;
     markerLayer.clearLayers();
     var mode = S.mode, sel = S.sel, pap = paper();
-    var dimWp = mode !== 'standard', dimSl = mode === 'querungen', dimCx = mode === 'schlaf';
+    var dimWp = mode !== 'standard';
+    var dimSl = mode === 'querungen' || mode === 'baden';
+    var dimCx = mode === 'schlaf' || mode === 'baden';
+    var dimSw = mode !== 'standard' && mode !== 'baden';
 
     WPS.forEach(function (p) {
       var isSel = sel && sel.id === p.id;
@@ -537,6 +577,23 @@
         + 'stroke-width="3" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9v11h14V9"/></svg></div>';
       L.marker(p.coords, { icon: divIcon(html, s + 10), keyboard: false, title: p.name })
         .on('click', function () { select(p, 'sl'); }).addTo(markerLayer);
+    });
+
+    // Bademöglichkeiten: Dreieck — die vierte Form neben Kreis, Quadrat und Raute.
+    SWIM.forEach(function (p) {
+      var isSel = sel && sel.id === p.id;
+      var big = mode === 'baden';
+      var s = big ? 26 : (p.unnamed ? 11 : 14);
+      var fill = big ? '#4d8fa8' : '#3c5a68';
+      var html = '<div style="display:flex;align-items:center;justify-content:center;'
+        + 'width:' + (s + 10) + 'px;height:' + (s + 10) + 'px;'
+        + 'opacity:' + (dimSw && !isSel ? .3 : 1) + ';' + (isSel ? selRing() : '') + '">'
+        + '<svg width="' + (s + 4) + '" height="' + (s + 4) + '" viewBox="0 0 24 24" '
+        + 'style="filter:drop-shadow(0 1px 2px rgba(0,0,0,.35))">'
+        + '<polygon points="12,21 2,4 22,4" fill="' + fill + '" stroke="' + pap + '" stroke-width="2.5"/>'
+        + '</svg></div>';
+      L.marker(p.coords, { icon: divIcon(html, s + 10), keyboard: false, title: p.name })
+        .on('click', function () { select(p, 'sw'); }).addTo(markerLayer);
     });
 
     CXS.forEach(function (p) {
@@ -606,14 +663,22 @@
       o.sleepList = (p.sleep || []).map(function (s) {
         return {
           name: s.name, typeLabel: KIND[s.type] || 'SCHLAFPLATZ', phone: s.phone || null,
-          detourKm: (s.detourKm == null ? null : s.detourKm), note: s.note || null
+          detourKm: (s.detourKm == null ? null : s.detourKm), note: s.note || null,
+          source: s.source || null
         };
       });
+    } else if (kind === 'sw') {
+      o.kicker = 'BADEN · ' + (KIND[p.kind] || 'BADESTELLE');
+      o.swKind = p.kind;
+      o.detour = p.detourKm; o.detourNote = null;
+      o.supervised = p.supervised; o.fee = p.fee; o.surface = p.surface;
+      o.note = p.note;
+      o.unnamed = !!p.unnamed;
     } else if (kind === 'sl') {
       o.kicker = 'SCHLAFPLATZ · ' + (KIND[p.type] || 'CAMPING');
       o.detour = p.detourKm; o.detourNote = null;
       o.parent = p.parent; o.phone = p.phone; o.note = p.note;
-      o.posApprox = !!p.posApprox;
+      o.posApprox = !!p.posApprox; o.source = p.source || null;
     } else {
       var st = STATUS[p.status] || STATUS.gruen;
       o.kicker = 'QUERUNG · ' + (KIND[p.kind] || 'QUERUNG');
@@ -726,17 +791,39 @@
           if (x.detourKm != null) meta.push('Umweg +' + fmtKm(x.detourKm) + ' km');
           if (x.note) meta.push(x.note);
           if (meta.length) h += '<div class="slp-m">' + esc(meta.join(' · ')) + '</div>';
-          if (x.phone) h += telBtn(x.phone);
+          if (x.phone) {
+            h += telBtn(x.phone);
+            if (x.source === 'osm') {
+              h += '<div class="hint">Nummer aus OpenStreetMap — nicht von mir geprüft.</div>';
+            }
+          }
           h += '</div>';
         });
+      }
+    }
+
+    if (s.kind === 'sw') {
+      h += def('Art', s.swKind === 'elbe' ? 'Strand an der Elbe' : 'See / Badesee');
+      if (s.surface) h += def('Untergrund', esc(s.surface));
+      if (s.supervised) h += def('Aufsicht', s.supervised === 'yes' ? 'ja' : 'nein');
+      if (s.fee) h += def('Eintritt', s.fee === 'yes' ? 'ja' : 'nein');
+      if (s.note) h += '<div class="flow">' + esc(s.note) + '</div>';
+      if (s.unnamed) {
+        h += '<div class="hint">Unbenannte Stelle aus OpenStreetMap — vor Ort prüfen, '
+          + 'ob man dort wirklich ins Wasser kommt.</div>';
       }
     }
 
     if (s.kind === 'sl') {
       h += def('Bei', esc(s.parent));
       if (s.note) h += '<div class="flow">' + esc(s.note) + '</div>';
-      if (s.phone) h += telBtn(s.phone);
-      if (s.posApprox) h += '<div class="hint">Markerposition ist nur beim Ort gesetzt — genaue Lage vor Ort oder telefonisch klären.</div>';
+      if (s.phone) {
+        h += telBtn(s.phone);
+        if (s.source === 'osm') {
+          h += '<div class="hint">Nummer aus OpenStreetMap — nicht von mir geprüft.</div>';
+        }
+      }
+      if (s.posApprox) h += '<div class="hint">Kein Eintrag in OpenStreetMap gefunden — der Marker sitzt beim Ort, nicht am Platz selbst.</div>';
     }
 
     if (s.kind === 'cx') {
@@ -914,7 +1001,7 @@
   }
 
   function syncBoxes() {
-    ['standard', 'querungen', 'schlaf'].forEach(function (m) {
+    ['standard', 'querungen', 'schlaf', 'baden'].forEach(function (m) {
       var b = document.querySelector('[data-box="' + m + '"]');
       if (b) b.className = 'box' + (S.mode === m ? ' on' : '');
     });

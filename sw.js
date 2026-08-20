@@ -2,7 +2,7 @@
    App-Shell cache-first, Daten network-first mit Cache-Fallback,
    OSM-Tiles stale-while-revalidate mit Deckel. */
 
-var VERSION = 'v1';
+var VERSION = 'v2';
 var SHELL = 'elbe-shell-' + VERSION;
 var DATA = 'elbe-data-' + VERSION;
 var TILES = 'elbe-tiles-' + VERSION;
@@ -21,7 +21,7 @@ var SHELL_URLS = [
   'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'
 ];
 
-var DATA_FILES = /(waypoints|crossings)\.json$|route\.geojson$/;
+var DATA_FILES = /(waypoints|crossings|swim)\.json$|route\.geojson$/;
 
 self.addEventListener('install', function (e) {
   e.waitUntil(
