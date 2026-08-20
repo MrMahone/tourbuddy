@@ -70,6 +70,15 @@ def query_around(selectors, line, step_km, radius_m, tag):
     return oc.overpass(q, tag)['elements']
 
 
+def query_around_geom(selectors, line, step_km, radius_m, tag):
+    """Wie query_around, aber mit Geometrie statt nur Mittelpunkt."""
+    chunks, n = around_chunks(line, step_km, radius_m)
+    body = ''.join('%s%s;' % (sel, cl) for cl in chunks for sel in selectors)
+    q = '[out:json][timeout:300];(%s);out tags geom;' % body
+    print('    %-12s %d Stuetzpunkte in %d Bloecken (mit Geometrie)' % (tag, n, len(chunks)))
+    return oc.overpass(q, tag)['elements']
+
+
 def fetch_places(route):
     return query_around(['node["place"~"^(city|town|village)$"]'],
                         route, 6.0, 4000, 'places')

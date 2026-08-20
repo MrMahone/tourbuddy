@@ -1,11 +1,13 @@
 {
   "meta": {
     "source": "OpenStreetMap contributors, ODbL (Positionen); Status aus eigener Recherche",
-    "statusDate": "2026-08-18",
+    "statusDate": "2026-08-20",
     "estimate": false,
     "estimateNote": "Positionen aus OSM-Faehranlegern bzw. auf den Flusslauf gesnappt. Status und Betriebszeiten stammen aus der eigenen Recherche, nicht aus OSM.",
     "hoursNote": "Viele kleine Elbfähren fahren im Pendel-/Bedarfsbetrieb innerhalb des angegebenen Fensters, ohne Taktfahrplan. Nur große ÖPNV-Fähren (HADAG, VVO) haben konkrete Abfahrten.",
-    "pegelUrl": "https://www.pegelonline.wsv.de"
+    "pegelUrl": "https://www.pegelonline.wsv.de",
+    "statusSource": "elberadweg.de/news-service, abgerufen 20.08.2026",
+    "gaugeNote": "Jeder Querung ist der naechstgelegene Elbe-Pegel zugeordnet. Der Link zeigt den aktuellen Wasserstand bei pegelonline.wsv.de."
   },
   "items": [
     {
@@ -13,8 +15,8 @@
       "name": "Fähre Lovosice – Píšťany",
       "kind": "faehre",
       "coords": [
-        50.518402,
-        14.054469
+        50.518306,
+        14.060272
       ],
       "km": 369,
       "status": "gruen",
@@ -24,7 +26,9 @@
       "critical": false,
       "backup": null,
       "note": "Optionale Uferwahl",
-      "estimate": true
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": null
     },
     {
       "id": "zernoseky",
@@ -42,7 +46,9 @@
       "critical": false,
       "backup": null,
       "note": "Optionale Uferwahl",
-      "estimate": false
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": null
     },
     {
       "id": "cirkvice-dolni-zalezly",
@@ -60,7 +66,9 @@
       "critical": false,
       "backup": null,
       "note": "Optionale Uferwahl",
-      "estimate": false
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": null
     },
     {
       "id": "decin-bruecken",
@@ -78,7 +86,14 @@
       "critical": false,
       "backup": null,
       "note": "Mehrere Stadtbrücken — sichere Querung",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-bruecke",
+      "gauge": {
+        "name": "SCHÖNA",
+        "elbeKm": 2.05,
+        "distKm": 10.3,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501010"
+      }
     },
     {
       "id": "schoena-hrensko",
@@ -96,7 +111,14 @@
       "critical": false,
       "backup": null,
       "note": "Sehr brauchbare Grenzquerung",
-      "estimate": false
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "SCHÖNA",
+        "elbeKm": 2.05,
+        "distKm": 0.1,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501010"
+      }
     },
     {
       "id": "schmilka-hirschmuehle",
@@ -114,7 +136,14 @@
       "critical": false,
       "backup": "Fähre Schöna–Hřensko",
       "note": "Uferwechsel möglich",
-      "estimate": false
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "SCHÖNA",
+        "elbeKm": 2.05,
+        "distKm": 1.7,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501010"
+      }
     },
     {
       "id": "bad-schandau-faehren",
@@ -132,7 +161,14 @@
       "critical": false,
       "backup": null,
       "note": "Mehrere Optionen",
-      "estimate": false
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "SCHÖNA",
+        "elbeKm": 2.05,
+        "distKm": 8.3,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501010"
+      }
     },
     {
       "id": "koenigstein-faehre",
@@ -150,7 +186,15 @@
       "critical": false,
       "backup": null,
       "note": "Hervorragende Querung, sehr lange Betriebszeiten",
-      "estimate": false
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "PIRNA",
+        "elbeKm": 34.67,
+        "distKm": 11.4,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501040"
+      },
+      "detourNote": "Umleitung Königstein–Kurort Rathen bis 30.11.2026."
     },
     {
       "id": "rathen",
@@ -168,15 +212,23 @@
       "critical": false,
       "backup": null,
       "note": "Sehr flexibel",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-geschaetzt",
+      "gauge": {
+        "name": "PIRNA",
+        "elbeKm": 34.67,
+        "distKm": 10.4,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501040"
+      },
+      "detourNote": "Umleitung Königstein–Kurort Rathen bis 30.11.2026."
     },
     {
       "id": "stadt-wehlen",
       "name": "Fähre Stadt Wehlen",
       "kind": "faehre",
       "coords": [
-        50.949737,
-        14.017621
+        50.955949,
+        14.034967
       ],
       "km": 453,
       "status": "gelb",
@@ -186,7 +238,14 @@
       "critical": false,
       "backup": "Stadtbrücke Pirna",
       "note": "War bis 19.08. wegen Niedrigwasser außer Betrieb — ab 20.08. erneut prüfen",
-      "estimate": true
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "PIRNA",
+        "elbeKm": 34.67,
+        "distKm": 7.4,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501040"
+      }
     },
     {
       "id": "pirna-copitz",
@@ -204,7 +263,14 @@
       "critical": false,
       "backup": "Stadtbrücke Pirna, direkt daneben",
       "note": null,
-      "estimate": false
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "PIRNA",
+        "elbeKm": 34.67,
+        "distKm": 0.7,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501040"
+      }
     },
     {
       "id": "pirna-stadtbruecke",
@@ -222,7 +288,14 @@
       "critical": false,
       "backup": null,
       "note": "Sehr gutes Backup für alle Fähren im Elbsandsteingebirge",
-      "estimate": false
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "PIRNA",
+        "elbeKm": 34.67,
+        "distKm": 0.3,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501040"
+      }
     },
     {
       "id": "pillnitz",
@@ -240,7 +313,14 @@
       "critical": false,
       "backup": "Blaues Wunder",
       "note": "Autofähre, nimmt Räder mit",
-      "estimate": false
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "PIRNA",
+        "elbeKm": 34.67,
+        "distKm": 6.9,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501040"
+      }
     },
     {
       "id": "niederpoyritz-laubegast",
@@ -258,7 +338,14 @@
       "critical": false,
       "backup": "Blaues Wunder",
       "note": "Optional",
-      "estimate": false
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "DRESDEN",
+        "elbeKm": 55.63,
+        "distKm": 7.4,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501060"
+      }
     },
     {
       "id": "blaues-wunder",
@@ -276,7 +363,14 @@
       "critical": false,
       "backup": null,
       "note": "Wichtige Querung, für Radverkehr frei",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-bruecke",
+      "gauge": {
+        "name": "DRESDEN",
+        "elbeKm": 55.63,
+        "distKm": 5.0,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501060"
+      }
     },
     {
       "id": "johannstadt-neustadt",
@@ -294,7 +388,14 @@
       "critical": false,
       "backup": "Dresdner Brücken",
       "note": "Fährt ausdrücklich nach Bedarf",
-      "estimate": false
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "DRESDEN",
+        "elbeKm": 55.63,
+        "distKm": 2.1,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501060"
+      }
     },
     {
       "id": "dresden-bruecken",
@@ -312,7 +413,14 @@
       "critical": false,
       "backup": null,
       "note": "Mehrere sichere Querungen in Dresden",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-bruecke",
+      "gauge": {
+        "name": "DRESDEN",
+        "elbeKm": 55.63,
+        "distKm": 0.9,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501060"
+      }
     },
     {
       "id": "carolabruecke",
@@ -330,7 +438,14 @@
       "critical": false,
       "backup": "Blaues Wunder, Waldschlößchen-, Albert-, Marienbrücke",
       "note": "Existiert derzeit nicht als Querung — eingestürzter Teil abgerissen, Neubauverfahren läuft. Nicht einplanen.",
-      "estimate": false
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "DRESDEN",
+        "elbeKm": 55.63,
+        "distKm": 0.6,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501060"
+      }
     },
     {
       "id": "koetitz-gauernitz",
@@ -348,7 +463,14 @@
       "critical": false,
       "backup": "Meißner Brücken",
       "note": "Guter Uferwechsel",
-      "estimate": false
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "MEISSEN",
+        "elbeKm": 82.2,
+        "distKm": 8.7,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501080"
+      }
     },
     {
       "id": "meissen-bruecken",
@@ -366,7 +488,14 @@
       "critical": false,
       "backup": null,
       "note": "Sichere Querung",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-bruecke",
+      "gauge": {
+        "name": "MEISSEN",
+        "elbeKm": 82.2,
+        "distKm": 0.1,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501080"
+      }
     },
     {
       "id": "seusslitz",
@@ -384,7 +513,14 @@
       "critical": false,
       "backup": "Stadtbrücke Riesa",
       "note": "Optional; fährt ausdrücklich nach Bedarf",
-      "estimate": false
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "MEISSEN",
+        "elbeKm": 82.2,
+        "distKm": 9.6,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501080"
+      }
     },
     {
       "id": "riesa-promnitz",
@@ -396,13 +532,21 @@
       ],
       "km": 533,
       "status": "rot",
-      "statusDate": "2026-08-18",
+      "statusDate": "2026-08-20",
       "hours": "normalerweise saisonal",
       "demand": true,
       "critical": false,
       "backup": "Stadtbrücke Riesa (offizieller Ersatz laut Baustelleninfo)",
-      "note": "03.08.–26.11. außer Betrieb (Umbau)",
-      "estimate": false
+      "note": "Außer Betrieb 03.08.–26.11.2026 (Umbau). Ersatz: Stadtbrücke Riesa.",
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "RIESA",
+        "elbeKm": 108.4,
+        "distKm": 1.2,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501110"
+      },
+      "statusSource": "elberadweg.de/news-service, abgerufen 20.08.2026"
     },
     {
       "id": "riesa-stadtbruecke",
@@ -420,7 +564,14 @@
       "critical": false,
       "backup": null,
       "note": "Offizieller Ersatz für die Fähre Riesa–Promnitz und für Belgern",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-bruecke",
+      "gauge": {
+        "name": "RIESA",
+        "elbeKm": 108.4,
+        "distKm": 0.3,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501110"
+      }
     },
     {
       "id": "strehla-lorenzkirch",
@@ -438,7 +589,14 @@
       "critical": false,
       "backup": "Stadtbrücke Riesa",
       "note": "Brauchbar",
-      "estimate": false
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "RIESA",
+        "elbeKm": 108.4,
+        "distKm": 5.4,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501110"
+      }
     },
     {
       "id": "belgern",
@@ -450,13 +608,21 @@
       ],
       "km": 568,
       "status": "rot",
-      "statusDate": "2026-08-18",
+      "statusDate": "2026-08-20",
       "hours": "regulär Mo–Fr 06:00–10:00 & 13:00–17:00",
       "demand": true,
       "critical": false,
       "backup": "Stadtbrücke Riesa bzw. Straßenbrücke Torgau",
-      "note": "Niedrigwasser, bis auf Weiteres außer Betrieb — nicht darauf bauen",
-      "estimate": false
+      "note": "Ausfall wegen Niedrigwasser, 13.07.–25.08.2026",
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "MÜHLBERG",
+        "elbeKm": 128.02,
+        "distKm": 6.7,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501160"
+      },
+      "statusSource": "elberadweg.de/news-service, abgerufen 20.08.2026"
     },
     {
       "id": "torgau-bruecke",
@@ -474,15 +640,22 @@
       "critical": false,
       "backup": null,
       "note": "Sichere Querung",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-bruecke",
+      "gauge": {
+        "name": "TORGAU",
+        "elbeKm": 154.15,
+        "distKm": 0.5,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501261"
+      }
     },
     {
       "id": "prettin-dommitzsch",
       "name": "Gierfähre Prettin – Dommitzsch",
       "kind": "gierfaehre",
       "coords": [
-        51.646626,
-        12.907452
+        51.648961,
+        12.895336
       ],
       "km": 606,
       "status": "gruen-check",
@@ -492,15 +665,22 @@
       "critical": false,
       "backup": "Straßenbrücke Torgau bzw. Elbbrücke Wittenberg",
       "note": "Einer von drei Uferwechseln in diesem Abschnitt",
-      "estimate": true
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "PRETZSCH-MAUKEN",
+        "elbeKm": 184.45,
+        "distKm": 9.0,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501330"
+      }
     },
     {
       "id": "pretzsch-mauken",
       "name": "Gierfähre Pretzsch – Mauken",
       "kind": "gierfaehre",
       "coords": [
-        51.730023,
-        12.802982
+        51.718117,
+        12.819007
       ],
       "km": 623,
       "status": "gruen-check",
@@ -510,7 +690,15 @@
       "critical": false,
       "backup": "Elbbrücke Wittenberg",
       "note": "Optional",
-      "estimate": true
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "PRETZSCH-MAUKEN",
+        "elbeKm": 184.45,
+        "distKm": 0.3,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501330"
+      },
+      "detourNote": "Umleitung Kleindröben–Mauken bis 30.09.2026."
     },
     {
       "id": "elster-wartenburg",
@@ -528,7 +716,14 @@
       "critical": false,
       "backup": "Elbbrücke Wittenberg",
       "note": "Wichtig für die Uferwahl vor Wittenberg",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-geschaetzt",
+      "gauge": {
+        "name": "PRETZSCH-MAUKEN",
+        "elbeKm": 184.45,
+        "distKm": 4.6,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501330"
+      }
     },
     {
       "id": "wittenberg-bruecke",
@@ -546,25 +741,40 @@
       "critical": false,
       "backup": null,
       "note": "Sehr sichere Querung; Ersatz für Coswig–Wörlitz",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-bruecke",
+      "gauge": {
+        "name": "WITTENBERG",
+        "elbeKm": 214.14,
+        "distKm": 1.4,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501420"
+      }
     },
     {
       "id": "coswig-woerlitz",
       "name": "Gierfähre Coswig – Wörlitz",
       "kind": "gierfaehre",
       "coords": [
-        51.881777,
-        12.445434
+        51.877119,
+        12.452789
       ],
       "km": 673,
       "status": "rot",
-      "statusDate": "2026-08-18",
+      "statusDate": "2026-08-20",
       "hours": "regulär nur Fr–So bei Betrieb",
       "demand": true,
       "critical": false,
       "backup": "Elbquerung Vockerode bzw. Elbbrücke Wittenberg",
-      "note": "Aktuell Niedrigwasser — nicht einplanen",
-      "estimate": true
+      "note": "Ausfall bei Niedrigwasser bzw. eingeschränkte Fährzeiten, 01.06.–31.12.2026",
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "COSWIG",
+        "elbeKm": 236.31,
+        "distKm": 0.1,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501470"
+      },
+      "statusSource": "elberadweg.de/news-service, abgerufen 20.08.2026"
     },
     {
       "id": "vockerode",
@@ -582,7 +792,14 @@
       "critical": false,
       "backup": null,
       "note": "Offizielles Backup für die ausgefallenen Fähren um Coswig/Wörlitz",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-bruecke",
+      "gauge": {
+        "name": "VOCKERODE",
+        "elbeKm": 245.62,
+        "distKm": 0.5,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501480"
+      }
     },
     {
       "id": "brambach",
@@ -600,7 +817,14 @@
       "critical": false,
       "backup": "Elbquerung Vockerode",
       "note": "Optional",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-geschaetzt",
+      "gauge": {
+        "name": "ROSSLAU",
+        "elbeKm": 257.84,
+        "distKm": 3.1,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501490"
+      }
     },
     {
       "id": "aken-gierfaehre",
@@ -618,7 +842,14 @@
       "critical": false,
       "backup": "Elbbrücke Schönebeck",
       "note": "Sehr brauchbar, lange Betriebszeiten",
-      "estimate": false
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "AKEN",
+        "elbeKm": 274.8,
+        "distKm": 0.1,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=502010"
+      }
     },
     {
       "id": "breitenhagen",
@@ -630,13 +861,21 @@
       ],
       "km": 728,
       "status": "rot",
-      "statusDate": "2026-08-18",
+      "statusDate": "2026-08-20",
       "hours": "regulär Mo–Fr 05:00–19:30, WE 09:00–18:00",
       "demand": true,
       "critical": false,
       "backup": "Elbbrücke Schönebeck",
-      "note": "12.–28.08. außer Betrieb — nicht einplanen",
-      "estimate": false
+      "note": "Außer Betrieb 12.08.–28.08.2026",
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "BARBY",
+        "elbeKm": 294.82,
+        "distKm": 7.4,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=502070"
+      },
+      "statusSource": "elberadweg.de/news-service, abgerufen 20.08.2026"
     },
     {
       "id": "schoenebeck-bruecke",
@@ -654,7 +893,14 @@
       "critical": false,
       "backup": null,
       "note": "Verlässliche Querung; Ersatz für Aken und Breitenhagen",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-bruecke",
+      "gauge": {
+        "name": "SCHÖNEBECK",
+        "elbeKm": 311.76,
+        "distKm": 0.0,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=502130"
+      }
     },
     {
       "id": "magdeburg-buckau",
@@ -672,7 +918,14 @@
       "critical": false,
       "backup": "Magdeburger Elbbrücken",
       "note": "Eher optional",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-geschaetzt",
+      "gauge": {
+        "name": "MAGDEBURG-BUCKAU",
+        "elbeKm": 325.39,
+        "distKm": 2.6,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=502170"
+      }
     },
     {
       "id": "magdeburg-bruecken",
@@ -690,15 +943,22 @@
       "critical": false,
       "backup": null,
       "note": "Sehr viele Möglichkeiten — Querung hier unkritisch",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-bruecke",
+      "gauge": {
+        "name": "MAGDEBURG-STROMBRÜCKE",
+        "elbeKm": 326.67,
+        "distKm": 0.4,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=502180"
+      }
     },
     {
       "id": "rogaetz",
       "name": "Motorfähre Rogätz – Schartau",
       "kind": "faehre",
       "coords": [
-        52.314092,
-        11.771763
+        52.312987,
+        11.770326
       ],
       "km": 815,
       "status": "gelb",
@@ -708,25 +968,40 @@
       "critical": false,
       "backup": "Magdeburger Elbbrücken bzw. Elbbrücke Tangermünde",
       "note": "Wasserstand vorher prüfen — wichtige Querung in dünn besiedeltem Abschnitt",
-      "estimate": true
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "ROGÄTZ",
+        "elbeKm": 350.64,
+        "distKm": 0.1,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=502250"
+      }
     },
     {
       "id": "ferchland-grieben",
       "name": "Fähre Ferchland – Grieben",
       "kind": "faehre",
       "coords": [
-        52.400114,
-        11.960471
+        52.436251,
+        11.995385
       ],
       "km": 835,
-      "status": "gruen-check",
-      "statusDate": "2026-08-18",
+      "status": "rot",
+      "statusDate": "2026-08-20",
       "hours": "saisonal",
       "demand": true,
       "critical": false,
       "backup": "Elbbrücke Tangermünde",
-      "note": "Wichtiger Uferwechsel",
-      "estimate": true
+      "note": "Außer Betrieb 12.08.–30.08.2026 — war bisher als eingeschränkt geführt, ist tatsächlich aus. Ersatz: Elbbrücke Tangermünde.",
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "TANGERMÜNDE",
+        "elbeKm": 388.26,
+        "distKm": 11.7,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=502350"
+      },
+      "statusSource": "elberadweg.de/news-service, abgerufen 20.08.2026"
     },
     {
       "id": "tangermuende-bruecke",
@@ -744,7 +1019,14 @@
       "critical": false,
       "backup": null,
       "note": "Sichere Querung; Ersatz für Rogätz, Ferchland und Arneburg",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-bruecke",
+      "gauge": {
+        "name": "TANGERMÜNDE",
+        "elbeKm": 388.26,
+        "distKm": 1.0,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=502350"
+      }
     },
     {
       "id": "arneburg-faehre",
@@ -756,13 +1038,21 @@
       ],
       "km": 885,
       "status": "rot",
-      "statusDate": "2026-08-18",
+      "statusDate": "2026-08-20",
       "hours": "normalerweise saisonal",
       "demand": true,
       "critical": false,
       "backup": "Elbbrücke Tangermünde bzw. Elbbrücke Sandau",
-      "note": "Niedrigwasser, eingestellt — nicht verwenden",
-      "estimate": true
+      "note": "Außer Betrieb 13.08.–30.08.2026",
+      "estimate": true,
+      "posSource": "flusslauf-geschaetzt",
+      "gauge": {
+        "name": "STORKAU",
+        "elbeKm": 396.11,
+        "distKm": 8.0,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=502370"
+      },
+      "statusSource": "elberadweg.de/news-service, abgerufen 20.08.2026"
     },
     {
       "id": "raebel",
@@ -780,7 +1070,14 @@
       "critical": false,
       "backup": "Elbbrücke Sandau",
       "note": "Sehr lange Betriebszeit",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-geschaetzt",
+      "gauge": {
+        "name": "SANDAU",
+        "elbeKm": 416.06,
+        "distKm": 3.0,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=502430"
+      }
     },
     {
       "id": "sandau-bruecke",
@@ -798,7 +1095,14 @@
       "critical": false,
       "backup": null,
       "note": "Sichere Alternative zu Räbel und Arneburg",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-bruecke",
+      "gauge": {
+        "name": "SANDAU",
+        "elbeKm": 416.06,
+        "distKm": 0.7,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=502430"
+      }
     },
     {
       "id": "wittenberge-eisenbahnbruecke",
@@ -816,7 +1120,15 @@
       "critical": false,
       "backup": "B189-Elbbrücke Wittenberge",
       "note": "Bohlenweg 2025 vollständig saniert, wieder frei",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-bruecke",
+      "gauge": {
+        "name": "WITTENBERGE",
+        "elbeKm": 453.98,
+        "distKm": 0.7,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=503050"
+      },
+      "detourNote": "Umleitung Wittenberge wegen Brückenbau, bis 12.10.2029."
     },
     {
       "id": "wittenberge-b189",
@@ -834,7 +1146,15 @@
       "critical": false,
       "backup": "Radquerung Eisenbahnbrücke",
       "note": "Alternative Querung",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-bruecke",
+      "gauge": {
+        "name": "WITTENBERGE",
+        "elbeKm": 453.98,
+        "distKm": 2.1,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=503050"
+      },
+      "detourNote": "Umleitung Wittenberge wegen Brückenbau, bis 12.10.2029."
     },
     {
       "id": "schnackenburg-luetkenwisch",
@@ -852,7 +1172,14 @@
       "critical": false,
       "backup": "Straßenbrücke Dömitz",
       "note": "Aktuell außer Betrieb — nicht darauf bauen",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-geschaetzt",
+      "gauge": {
+        "name": "SCHNACKENBURG",
+        "elbeKm": 474.56,
+        "distKm": 0.3,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5910010"
+      }
     },
     {
       "id": "lenzen-pevestorf",
@@ -870,7 +1197,14 @@
       "critical": false,
       "backup": "Straßenbrücke Dömitz",
       "note": "Wasserstandsabhängig — vorher checken",
-      "estimate": false
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "LENZEN",
+        "elbeKm": 484.7,
+        "distKm": 0.2,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=503120"
+      }
     },
     {
       "id": "doemitz-bruecke",
@@ -888,7 +1222,14 @@
       "critical": true,
       "backup": null,
       "note": "Einzige verlässliche Querung zwischen Wittenberge und Lauenburg — alle Fähren nördlich davon derzeit wegen Niedrigwasser aus",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-bruecke",
+      "gauge": {
+        "name": "DÖMITZ",
+        "elbeKm": 504.7,
+        "distKm": 0.8,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5910025"
+      }
     },
     {
       "id": "hitzacker-bitter",
@@ -900,13 +1241,21 @@
       ],
       "km": 1023,
       "status": "rot",
-      "statusDate": "2026-08-18",
+      "statusDate": "2026-08-20",
       "hours": "regulär 09:00–18:00",
       "demand": true,
       "critical": false,
       "backup": "Straßenbrücke Dömitz bzw. Elbbrücke Lauenburg",
-      "note": "Niedrigwasser, mind. bis 23.08. aus — fällt für den Tourstart aus",
-      "estimate": false
+      "note": "Ausfall wegen Niedrigwasser, 20.07.–23.08.2026",
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "HITZACKER",
+        "elbeKm": 522.639,
+        "distKm": 0.3,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5920010"
+      },
+      "statusSource": "elberadweg.de/news-service, abgerufen 20.08.2026"
     },
     {
       "id": "neu-darchau-darchau",
@@ -918,13 +1267,21 @@
       ],
       "km": 1037,
       "status": "rot",
-      "statusDate": "2026-08-18",
+      "statusDate": "2026-08-20",
       "hours": "regulär Mo–Sa 05:30–ca. 21:00, So 09:00–ca. 21:00",
       "demand": true,
       "critical": false,
       "backup": "Straßenbrücke Dömitz bzw. Elbbrücke Lauenburg",
-      "note": "Niedrigwasser, mind. bis 23.08. aus — aktuell nicht planen",
-      "estimate": false
+      "note": "Ausfall wegen Niedrigwasser, 27.07.–23.08.2026 (Fähre „Tanja“)",
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "NEU DARCHAU",
+        "elbeKm": 536.385,
+        "distKm": 0.2,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5930010"
+      },
+      "statusSource": "elberadweg.de/news-service, abgerufen 20.08.2026"
     },
     {
       "id": "bleckede-neu-bleckede",
@@ -936,13 +1293,21 @@
       ],
       "km": 1052,
       "status": "rot",
-      "statusDate": "2026-08-18",
+      "statusDate": "2026-08-20",
       "hours": "regulär Pendelbetrieb",
       "demand": true,
       "critical": false,
       "backup": "Elbbrücke Lauenburg",
-      "note": "Mind. bis 23.08. außer Betrieb — aktuell nicht planen",
-      "estimate": false
+      "note": "Ausfall wegen Niedrigwasser, 10.08.–23.08.2026 (Fähre „Amt Neuhaus“)",
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "BLECKEDE",
+        "elbeKm": 549.633,
+        "distKm": 0.7,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5930020"
+      },
+      "statusSource": "elberadweg.de/news-service, abgerufen 20.08.2026"
     },
     {
       "id": "lauenburg-bruecke",
@@ -960,7 +1325,14 @@
       "critical": false,
       "backup": null,
       "note": "Zentrale sichere Querung; Ersatz für alle ausgefallenen Fähren im Norden",
-      "estimate": false
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "HOHNSTORF",
+        "elbeKm": 568.987,
+        "distKm": 0.3,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5930040"
+      }
     },
     {
       "id": "geesthacht-staustufe",
@@ -978,7 +1350,14 @@
       "critical": false,
       "backup": "Elbbrücke Lauenburg",
       "note": "Sehr brauchbar; Radführung über die Staustufe prüfen",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-bruecke",
+      "gauge": {
+        "name": "WEHR GEESTHACHT UP",
+        "elbeKm": 585.99,
+        "distKm": 0.7,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5930062"
+      }
     },
     {
       "id": "zollenspieker-hoopte",
@@ -996,7 +1375,14 @@
       "critical": false,
       "backup": "Hamburger Elbbrücken",
       "note": "Häufige Querung",
-      "estimate": false
+      "estimate": false,
+      "posSource": "osm-objekt",
+      "gauge": {
+        "name": "ZOLLENSPIEKER",
+        "elbeKm": 598.159,
+        "distKm": 0.2,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5930090"
+      }
     },
     {
       "id": "hamburg-elbbruecken",
@@ -1014,7 +1400,14 @@
       "critical": false,
       "backup": null,
       "note": "Mehrere Querungen",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-bruecke",
+      "gauge": {
+        "name": "HAMBURG ST. PAULI",
+        "elbeKm": 623.1,
+        "distKm": 3.7,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5952050"
+      }
     },
     {
       "id": "alter-elbtunnel",
@@ -1032,7 +1425,14 @@
       "critical": false,
       "backup": "Hamburger Elbbrücken",
       "note": "Hervorragende Fahrradquerung — Aufzug oder Treppe, Rad schieben",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-bruecke",
+      "gauge": {
+        "name": "HAMBURG ST. PAULI",
+        "elbeKm": 623.1,
+        "distKm": 0.2,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5952050"
+      }
     },
     {
       "id": "hadag-finkenwerder-teufelsbrueck",
@@ -1050,7 +1450,14 @@
       "critical": false,
       "backup": "Alter Elbtunnel",
       "note": "Radmitnahme möglich",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-geschaetzt",
+      "gauge": {
+        "name": "SEEMANNSHÖFT",
+        "elbeKm": 628.9,
+        "distKm": 0.9,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5952060"
+      }
     },
     {
       "id": "hadag-finkenwerder-landungsbruecken",
@@ -1068,7 +1475,14 @@
       "critical": false,
       "backup": "Alter Elbtunnel",
       "note": "Radmitnahme möglich",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-geschaetzt",
+      "gauge": {
+        "name": "SEEMANNSHÖFT",
+        "elbeKm": 628.9,
+        "distKm": 0.5,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5952060"
+      }
     },
     {
       "id": "blankenese-finkenwerder",
@@ -1086,7 +1500,14 @@
       "critical": false,
       "backup": "Alter Elbtunnel",
       "note": "Cranz/Neuenfelde werden derzeit nicht bedient",
-      "estimate": true
+      "estimate": true,
+      "posSource": "flusslauf-geschaetzt",
+      "gauge": {
+        "name": "BLANKENESE UF",
+        "elbeKm": 635.0,
+        "distKm": 0.2,
+        "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5952065"
+      }
     }
   ]
 }

@@ -686,7 +686,13 @@
       o.status = p.status; o.statusLabel = st.label; o.statusColor = st.c; o.hollow = !!st.hollow;
       o.statusDate = p.statusDate; o.hours = p.hours; o.backup = p.backup; o.note = p.note;
       o.demand = !!p.demand;
-      o.pegel = (p.status === 'gruen-check' || p.status === 'gelb');
+      o.statusSource = p.statusSource || null;
+      o.cxDetour = p.detourNote || null;
+      o.gauge = p.gauge || null;
+      o.posSource = p.posSource || null;
+      // Bei Fähren hängt der Betrieb immer am Wasserstand, nicht nur bei gelb.
+      o.pegel = (p.kind === 'faehre' || p.kind === 'gierfaehre'
+                 || p.status === 'gruen-check' || p.status === 'gelb');
     }
     return o;
   }
@@ -831,9 +837,24 @@
       if (s.demand) h += '<div class="hint">Pendel-/Bedarfsbetrieb innerhalb dieses Fensters — kein Taktfahrplan.</div>';
       if (s.backup) h += def('Ersatz', esc(s.backup));
       if (s.note) h += '<div class="flow">' + esc(s.note) + '</div>';
+      if (s.cxDetour) h += '<div class="flow">▲ ' + esc(s.cxDetour) + '</div>';
       if (s.pegel) {
-        h += '<a class="act" href="' + esc(META_PEGEL) + '" target="_blank" rel="noopener">'
-          + '<span class="grow">Pegelstand prüfen</span>' + ICON.extAcc + '</a>';
+        // Konkreter Pegel statt Startseite: unterwegs zählt der Wert an dieser Stelle.
+        var gu = (s.gauge && s.gauge.url) || META_PEGEL;
+        var gl = s.gauge ? ('Pegel ' + s.gauge.name + ' prüfen') : 'Pegelstand prüfen';
+        h += '<a class="act" href="' + esc(gu) + '" target="_blank" rel="noopener">'
+          + '<span class="grow">' + esc(gl) + '</span>' + ICON.extAcc + '</a>';
+        if (s.gauge) {
+          h += '<div class="hint">Elbe-km ' + esc(s.gauge.elbeKm) + ', '
+            + esc(fmtKm(s.gauge.distKm)) + ' km von hier.</div>';
+        }
+      }
+      if (s.posSource === 'flusslauf-geschaetzt') {
+        h += '<div class="hint">Anlegestelle nicht aus OpenStreetMap bestätigt — der Marker sitzt '
+          + 'auf dem Fluss, die genaue Stelle kann abweichen.</div>';
+      }
+      if (s.statusSource) {
+        h += '<div class="hint">Status: ' + esc(s.statusSource) + '</div>';
       }
     }
 
@@ -845,8 +866,10 @@
       + '<span class="grow">In Komoot planen</span>' + ICON.ext + '</a>';
     h += '<a class="act soft" href="' + esc(navUrl(s.coords)) + '" target="_blank" rel="noopener">'
       + '<span class="grow">In Karten-App öffnen</span>' + ICON.ext + '</a>';
-    if (s.estimate) {
-      h += '<div class="hint">Koordinaten und km-Wert sind Schätzungen aus der Planung — noch nicht gegen den GPX gerechnet.</div>';
+    // km kommt inzwischen immer aus der gemessenen Radwegachse; unsicher ist
+    // allenfalls die Position, und das steht bei Querungen schon oben.
+    if (s.estimate && s.kind === 'wp') {
+      h += '<div class="hint">Ortskoordinate nicht aus OpenStreetMap bestätigt.</div>';
     }
     return h;
   }

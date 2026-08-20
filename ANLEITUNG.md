@@ -137,28 +137,56 @@ Bei jedem Elbstrand steht ein Warnhinweis im Sheet: **Strömung, Sog an den Buhn
 Berufsschifffahrt.** Das ist kein Formalkram — die Buhnenfelder der Elbe haben eine
 erhebliche Sogwirkung. Seen am Weg sind zum Baden die deutlich bessere Wahl.
 
-## Datenstand und was noch geschätzt ist
+## Datenstand der Querungen
 
-Stand 20.08.2026, nach dem OSM-Abgleich:
+**Status: 20.08.2026**, abgeglichen mit der offiziellen Ausfallliste
+`elberadweg.de/news-service/baustellen-umleitungen-faehrausfall`. Jede aktualisierte Querung
+trägt die Quelle im Sheet.
 
-- **Route und km-Achse sind gemessen**, nicht geschätzt. Gesamtlänge **1129 km** entlang der
-  OSM-Radwegachse (Labská stezka + Elberadweg rechtselbisch), Elbquelle bis Elbphilharmonie.
-  Der Wert liegt unter der Doku-Angabe für die offizielle Route, weil der Moldau-Abstecher
-  über Prag nicht mitgerechnet wird.
-- **Alle 56 Ortskoordinaten** stammen aus OSM-place-Knoten. Größte Korrektur gegenüber der
-  ersten Schätzung: Sandau/Havelberg um 4,6 km, Bertingen und Arneburg je 2,4 km.
-- **25 von 60 Querungen** sitzen auf echten OSM-Fähranlegern bzw. benannten Brücken. Die
-  restlichen **35** sind auf den Flusslauf gesnappt (`estimate: true`) — sie liegen damit auf
-  dem Wasser, aber die genaue Anlegestelle ist nicht bestätigt.
-- **20 von 30 Schlafplätzen** haben echte Koordinaten aus OSM, **17** davon mit Telefonnummer.
-  Diese Nummern sind Fremddaten und im Sheet als solche gekennzeichnet — vor dem Verlassen
-  der Route einmal anrufen. Die restlichen Marker sitzen weiter beim Ort, nicht am Platz.
-- **Zwei Punkte sind gegenüber `tour-kontext.md` umsortiert**, weil die km-Achse flussabwärts
-  monoton laufen muss: Werben liegt vor Sandau/Havelberg, Schnackenburg vor Lenzen.
-- **Querungsstatus ist vom 18.08.2026** und kommt aus deiner Recherche, nicht aus OSM. Der
-  Wasserstand ändert das binnen Tagen — vor jedem Durchfahrtstag prüfen.
-- **Der Umweg-Wert der POIs** (`poi.detourKm`) stammt weiter aus deiner Recherche. Neu daneben:
-  `routeDistKm`, der gemessene Abstand des Ortes zur Radwegachse.
+11 außer Betrieb, 3 eingeschränkt, 46 in Betrieb (davon 14 am Durchfahrtstag live prüfen).
+
+Gegenüber der ersten Fassung korrigiert: **Ferchland–Grieben ist außer Betrieb** (12.–30.08.),
+stand vorher als „eingeschränkt". Alle Ausfälle haben jetzt exakte Zeiträume statt „bis auf
+Weiteres" — die meisten enden am 23.08., Belgern am 25.08., Breitenhagen am 28.08.,
+Arneburg und Ferchland am 30.08.
+
+**Baustellen, die eine Querung betreffen**, sind als Hinweis am jeweiligen Eintrag vermerkt:
+Umleitung Königstein–Kurort Rathen (bis 30.11.2026), Kleindröben–Mauken (bis 30.09.2026) und
+der Brückenbau Wittenberge (läuft bis 12.10.2029).
+
+### Pegel
+
+Jede Querung außerhalb Tschechiens ist dem nächstgelegenen Elbe-Pegel zugeordnet, mit Deeplink
+auf den aktuellen Wert bei pegelonline.wsv.de. Im Sheet steht der Pegelname, der Elbe-Kilometer
+und die Entfernung. Bei Fähren erscheint der Link immer, nicht nur bei gelbem Status — der
+Betrieb hängt dort grundsätzlich am Wasserstand.
+
+Für den tschechischen Abschnitt gibt es keinen Pegel: pegelonline führt dort nur Přelouč, und
+das ohne Koordinaten. Lieber kein Pegel als ein falscher.
+
+### Positionsgenauigkeit
+
+Im Feld `posSource` steht, woher die Koordinate kommt:
+
+| Wert | Anzahl | Bedeutung |
+|---|---|---|
+| `osm-objekt` | 32 | Fähranleger oder benannte Brücke aus OSM |
+| `osm-faehrlinie` | 0 | Mitte einer OSM-Fährlinie (`route=ferry`) |
+| `flusslauf-bruecke` | 18 | Brücke, auf den Flusslauf gesetzt — die Querungsstelle stimmt, die genaue Brücke ist nicht bestätigt |
+| `flusslauf-geschaetzt` | 10 | Anlegestelle unbestätigt, Marker sitzt auf dem Fluss. Das Sheet weist darauf hin. |
+
+Die Filterung nach Linienlänge ist wichtig: HADAG-Fähren in Hamburg fahren **längs** der Elbe,
+nicht darüber. Ihr Linienmittelpunkt ist keine Querungsstelle, deshalb bleiben Linien über 2 km
+außen vor.
+
+## Datenstand der übrigen Register
+
+- **Route und km-Achse gemessen**, Gesamtlänge 1129 km entlang der OSM-Radwegachse.
+- **Alle 56 Ortskoordinaten** aus OSM-place-Knoten. Größte Korrektur: Sandau/Havelberg 4,6 km.
+- **20 von 30 Schlafplätzen** mit echten Koordinaten, 17 davon mit Telefonnummer aus OSM —
+  Fremddaten, im Sheet gekennzeichnet, vor dem Abbiegen anrufen.
+- **Zwei Punkte umsortiert** gegenüber `tour-kontext.md`, damit die km-Achse monoton bleibt:
+  Werben vor Sandau/Havelberg, Schnackenburg vor Lenzen.
 
 ## Lokal testen
 
