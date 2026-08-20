@@ -2,7 +2,7 @@
    App-Shell cache-first, Daten network-first mit Cache-Fallback,
    OSM-Tiles stale-while-revalidate mit Deckel. */
 
-var VERSION = 'v2';
+var VERSION = 'v3';
 var SHELL = 'elbe-shell-' + VERSION;
 var DATA = 'elbe-data-' + VERSION;
 var TILES = 'elbe-tiles-' + VERSION;
@@ -118,6 +118,10 @@ self.addEventListener('fetch', function (e) {
     );
     return;
   }
+
+  // Pegelstände nie cachen: cache-first wuerde den Wert einfrieren. Die App
+  // haelt den letzten Stand selbst im localStorage und zeigt sein Alter an.
+  if (/pegelonline\.wsv\.de$/.test(url.hostname)) return;
 
   // Alles andere (Leaflet, Fonts, Icons): Cache first, sonst Netz und mitnehmen.
   e.respondWith(

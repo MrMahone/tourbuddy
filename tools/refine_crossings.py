@@ -88,6 +88,7 @@ def gauges():
         out.append({
             'name': s.get('longname', '').strip(),
             'number': s.get('number'),
+            'uuid': s.get('uuid'),
             'km': s.get('km'),
             'coords': (s['latitude'], s['longitude']),
             'value': cur.get('value') if cur else None,
@@ -182,6 +183,7 @@ def main():
             continue
         c['gauge'] = {
             'name': near['name'],
+            'uuid': near['uuid'],          # fuer die Live-Abfrage in der App
             'elbeKm': near['km'],
             'distKm': round(d, 1),
             'url': 'https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=%s' % near['number'],

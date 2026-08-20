@@ -164,6 +164,7 @@
   .act.soft{border-color:var(--lnsoft);color:var(--mut);font-weight:600;font-size:14px}
   .act.soft:hover{color:var(--ink);border-color:var(--ln)}
   .hint{margin-top:6px;font-size:11px;line-height:1.4;color:var(--mut)}
+  .hint.warn{color:var(--warn);font-weight:600}
 
   /* GPS-Marker */
   .pos-halo{position:absolute;inset:-5px;border:2px solid var(--acc);border-radius:50%;
@@ -839,14 +840,15 @@
       if (s.note) h += '<div class="flow">' + esc(s.note) + '</div>';
       if (s.cxDetour) h += '<div class="flow">▲ ' + esc(s.cxDetour) + '</div>';
       if (s.pegel) {
-        // Konkreter Pegel statt Startseite: unterwegs zählt der Wert an dieser Stelle.
+        // Live-Wert wird nachgeladen; der Link bleibt als Rückfall und für Details.
+        if (s.gauge) h += '<div id="pegelBox"></div>';
         var gu = (s.gauge && s.gauge.url) || META_PEGEL;
-        var gl = s.gauge ? ('Pegel ' + s.gauge.name + ' prüfen') : 'Pegelstand prüfen';
-        h += '<a class="act" href="' + esc(gu) + '" target="_blank" rel="noopener">'
-          + '<span class="grow">' + esc(gl) + '</span>' + ICON.extAcc + '</a>';
+        var gl = s.gauge ? ('Pegel ' + s.gauge.name + ' öffnen') : 'Pegelstand prüfen';
+        h += '<a class="act soft" href="' + esc(gu) + '" target="_blank" rel="noopener">'
+          + '<span class="grow">' + esc(gl) + '</span>' + ICON.ext + '</a>';
         if (s.gauge) {
           h += '<div class="hint">Elbe-km ' + esc(s.gauge.elbeKm) + ', '
-            + esc(fmtKm(s.gauge.distKm)) + ' km von hier.</div>';
+            + esc(fmtKm(s.gauge.distKm)) + ' km von hier entfernt.</div>';
         }
       }
       if (s.posSource === 'flusslauf-geschaetzt') {
@@ -876,6 +878,106 @@
 
   var META_PEGEL = 'https://www.pegelonline.wsv.de';
 
+  // ------------------------------------------------------------- Pegel (live)
+  // Eine Sammelabfrage liefert alle Elbe-Pegel mit Wert und Einordnung
+  // (66 KB, ~0,7 s). Wird erst geholt, wenn eine Querung geöffnet wird, und
+  // dann eine halbe Stunde behalten. Der letzte Stand liegt im localStorage,
+  // damit offline wenigstens ein Wert mit Alter dasteht.
+  var PEGEL_API = 'https://www.pegelonline.wsv.de/webservices/rest-api/v2/';
+  var PEGEL_TTL = 30 * 60 * 1000;
+  // Direkt aus dem Speicher initialisieren. Ein separater Aufruf weiter oben
+  // würde von dieser var-Zuweisung wieder überschrieben (Hoisting).
+  var PEGEL = pegelRestore();
+  var TREND = {};
+  var PEGEL_TRIED = false;   // unterscheidet 'laedt noch' von 'geht nicht'
+  var MNW_LABEL = {
+    low: 'unter mittlerem Niedrigwasser',
+    normal: 'im normalen Bereich',
+    high: 'über mittlerem Hochwasser'
+  };
+
+  function pegelRestore() {
+    try {
+      var o = JSON.parse(store('pegel'));
+      if (o && o.data) return o;
+    } catch (e) { /* kaputter Eintrag ist kein Grund, die App zu stoppen */ }
+    return { at: 0, data: {} };
+  }
+
+  function pegelLoad() {
+    if (PEGEL.at && Date.now() - PEGEL.at < PEGEL_TTL) return Promise.resolve(false);
+    if (pegelLoad.busy) return pegelLoad.busy;
+    pegelLoad.busy = fetch(PEGEL_API
+        + 'stations.json?waters=ELBE&includeTimeseries=true&includeCurrentMeasurement=true')
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (list) {
+        var d = {};
+        list.forEach(function (st) {
+          (st.timeseries || []).forEach(function (ts) {
+            if (ts.shortname !== 'W') return;
+            var cm = ts.currentMeasurement;
+            if (!cm || cm.value == null) return;
+            d[st.uuid] = { v: cm.value, t: cm.timestamp,
+                           mnw: cm.stateMnwMhw, nsw: cm.stateNswHsw };
+          });
+        });
+        PEGEL = { at: Date.now(), data: d };
+        store('pegel', JSON.stringify(PEGEL));
+        return true;
+      })
+      .catch(function () { return false; })
+      .then(function (ok) { pegelLoad.busy = null; PEGEL_TRIED = true; return ok; });
+    return pegelLoad.busy;
+  }
+
+  // 24-Stunden-Reihe nur für den gerade geöffneten Pegel (~7 KB).
+  function pegelTrend(uuid) {
+    var c = TREND[uuid];
+    if (c && Date.now() - c.at < PEGEL_TTL) return Promise.resolve(c.d);
+    return fetch(PEGEL_API + 'stations/' + uuid + '/W/measurements.json?start=P1D')
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (ms) {
+        if (!ms.length) return null;
+        var d = ms[ms.length - 1].value - ms[0].value;
+        TREND[uuid] = { d: d, at: Date.now() };
+        return d;
+      }).catch(function () { return null; });
+  }
+
+  function ago(ms) {
+    var m = Math.round(ms / 60000);
+    if (m < 2) return 'gerade eben';
+    if (m < 90) return 'vor ' + m + ' Min.';
+    var h = Math.round(m / 60);
+    if (h < 36) return 'vor ' + h + ' Std.';
+    return 'vor ' + Math.round(h / 24) + ' Tagen';
+  }
+
+  function renderPegel(sel) {
+    var box = $('pegelBox');
+    if (!box || !sel || !sel.gauge) return;
+    var g = sel.gauge, p = PEGEL.data[g.uuid];
+    if (!p) {
+      box.innerHTML = '<div class="hint">' + (PEGEL_TRIED
+        ? 'Pegelstand nicht abrufbar — kein Netz, und für diesen Pegel ist nichts gespeichert.'
+        : 'Pegelstand wird geladen …') + '</div>';
+      return;
+    }
+    var h = def('Pegel ' + esc(g.name), esc(String(p.v)) + ' cm', true);
+    var t = TREND[g.uuid];
+    if (t && t.d != null) {
+      h += def('24 Stunden', (t.d > 0 ? '+' : '') + t.d + ' cm', true);
+    }
+    var bits = [];
+    if (MNW_LABEL[p.mnw]) bits.push(MNW_LABEL[p.mnw]);
+    if (p.nsw === 'low') bits.push('unter dem niedrigsten schiffbaren Wasserstand');
+    var age = Date.now() - Date.parse(p.t);
+    bits.push('gemessen ' + String(p.t).substr(11, 5) + ' Uhr, ' + ago(age));
+    var warn = (p.mnw === 'low' || p.nsw === 'low');
+    h += '<div class="hint' + (warn ? ' warn' : '') + '">' + esc(bits.join(' · ')) + '</div>';
+    box.innerHTML = h;
+  }
+
   function def(l, v, num) {
     return '<dl class="def"><dt>' + l + '</dt><dd class="' + (num ? 'num' : '') + '">' + v + '</dd></dl>';
   }
@@ -901,6 +1003,14 @@
   function wireBody(s) {
     var g = $('sheetBody').querySelector('[data-act="gpx"]');
     if (g) g.addEventListener('click', function () { exportGpx(s); });
+
+    if (!s.gauge) return;
+    renderPegel(s);
+    var uuid = s.gauge.uuid;
+    // Nur nachrendern, wenn noch dieselbe Querung offen ist.
+    var same = function () { return S.sel && S.sel.id === s.id; };
+    pegelLoad().then(function () { if (same()) renderPegel(s); });
+    if (uuid) pegelTrend(uuid).then(function () { if (same()) renderPegel(s); });
   }
 
   // ------------------------------------------------------------------ GPX-Export

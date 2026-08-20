@@ -90,6 +90,7 @@
       "posSource": "flusslauf-bruecke",
       "gauge": {
         "name": "SCHÖNA",
+        "uuid": "7cb7461b-3530-4c01-8978-7f676b8f71ed",
         "elbeKm": 2.05,
         "distKm": 10.3,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501010"
@@ -115,6 +116,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "SCHÖNA",
+        "uuid": "7cb7461b-3530-4c01-8978-7f676b8f71ed",
         "elbeKm": 2.05,
         "distKm": 0.1,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501010"
@@ -140,6 +142,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "SCHÖNA",
+        "uuid": "7cb7461b-3530-4c01-8978-7f676b8f71ed",
         "elbeKm": 2.05,
         "distKm": 1.7,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501010"
@@ -165,6 +168,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "SCHÖNA",
+        "uuid": "7cb7461b-3530-4c01-8978-7f676b8f71ed",
         "elbeKm": 2.05,
         "distKm": 8.3,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501010"
@@ -190,6 +194,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "PIRNA",
+        "uuid": "85d686f1-55b2-4d36-8dba-3207b50901a7",
         "elbeKm": 34.67,
         "distKm": 11.4,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501040"
@@ -216,6 +221,7 @@
       "posSource": "flusslauf-geschaetzt",
       "gauge": {
         "name": "PIRNA",
+        "uuid": "85d686f1-55b2-4d36-8dba-3207b50901a7",
         "elbeKm": 34.67,
         "distKm": 10.4,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501040"
@@ -242,6 +248,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "PIRNA",
+        "uuid": "85d686f1-55b2-4d36-8dba-3207b50901a7",
         "elbeKm": 34.67,
         "distKm": 7.4,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501040"
@@ -267,6 +274,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "PIRNA",
+        "uuid": "85d686f1-55b2-4d36-8dba-3207b50901a7",
         "elbeKm": 34.67,
         "distKm": 0.7,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501040"
@@ -292,6 +300,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "PIRNA",
+        "uuid": "85d686f1-55b2-4d36-8dba-3207b50901a7",
         "elbeKm": 34.67,
         "distKm": 0.3,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501040"
@@ -317,6 +326,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "PIRNA",
+        "uuid": "85d686f1-55b2-4d36-8dba-3207b50901a7",
         "elbeKm": 34.67,
         "distKm": 6.9,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501040"
@@ -342,6 +352,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "DRESDEN",
+        "uuid": "70272185-b2b3-4178-96b8-43bea330dcae",
         "elbeKm": 55.63,
         "distKm": 7.4,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501060"
@@ -367,6 +378,7 @@
       "posSource": "flusslauf-bruecke",
       "gauge": {
         "name": "DRESDEN",
+        "uuid": "70272185-b2b3-4178-96b8-43bea330dcae",
         "elbeKm": 55.63,
         "distKm": 5.0,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501060"
@@ -392,6 +404,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "DRESDEN",
+        "uuid": "70272185-b2b3-4178-96b8-43bea330dcae",
         "elbeKm": 55.63,
         "distKm": 2.1,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501060"
@@ -417,6 +430,7 @@
       "posSource": "flusslauf-bruecke",
       "gauge": {
         "name": "DRESDEN",
+        "uuid": "70272185-b2b3-4178-96b8-43bea330dcae",
         "elbeKm": 55.63,
         "distKm": 0.9,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501060"
@@ -442,6 +456,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "DRESDEN",
+        "uuid": "70272185-b2b3-4178-96b8-43bea330dcae",
         "elbeKm": 55.63,
         "distKm": 0.6,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501060"
@@ -467,6 +482,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "MEISSEN",
+        "uuid": "24440872-5bd2-4fb3-8554-907b49816c49",
         "elbeKm": 82.2,
         "distKm": 8.7,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501080"
@@ -492,6 +508,7 @@
       "posSource": "flusslauf-bruecke",
       "gauge": {
         "name": "MEISSEN",
+        "uuid": "24440872-5bd2-4fb3-8554-907b49816c49",
         "elbeKm": 82.2,
         "distKm": 0.1,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501080"
@@ -517,6 +534,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "MEISSEN",
+        "uuid": "24440872-5bd2-4fb3-8554-907b49816c49",
         "elbeKm": 82.2,
         "distKm": 9.6,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501080"
@@ -542,6 +560,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "RIESA",
+        "uuid": "b04b739d-7ffa-41ee-9eb9-95cb1b4ef508",
         "elbeKm": 108.4,
         "distKm": 1.2,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501110"
@@ -568,6 +587,7 @@
       "posSource": "flusslauf-bruecke",
       "gauge": {
         "name": "RIESA",
+        "uuid": "b04b739d-7ffa-41ee-9eb9-95cb1b4ef508",
         "elbeKm": 108.4,
         "distKm": 0.3,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501110"
@@ -593,6 +613,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "RIESA",
+        "uuid": "b04b739d-7ffa-41ee-9eb9-95cb1b4ef508",
         "elbeKm": 108.4,
         "distKm": 5.4,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501110"
@@ -618,6 +639,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "MÜHLBERG",
+        "uuid": "16b9b4e7-be14-41fd-941e-6755c97276cc",
         "elbeKm": 128.02,
         "distKm": 6.7,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501160"
@@ -644,6 +666,7 @@
       "posSource": "flusslauf-bruecke",
       "gauge": {
         "name": "TORGAU",
+        "uuid": "83bbaedb-5d81-4bc6-9f66-3bd700c99c1f",
         "elbeKm": 154.15,
         "distKm": 0.5,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501261"
@@ -669,6 +692,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "PRETZSCH-MAUKEN",
+        "uuid": "f3dc8f07-c2bb-4b92-b0b0-4e01a395a2c6",
         "elbeKm": 184.45,
         "distKm": 9.0,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501330"
@@ -694,6 +718,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "PRETZSCH-MAUKEN",
+        "uuid": "f3dc8f07-c2bb-4b92-b0b0-4e01a395a2c6",
         "elbeKm": 184.45,
         "distKm": 0.3,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501330"
@@ -720,6 +745,7 @@
       "posSource": "flusslauf-geschaetzt",
       "gauge": {
         "name": "PRETZSCH-MAUKEN",
+        "uuid": "f3dc8f07-c2bb-4b92-b0b0-4e01a395a2c6",
         "elbeKm": 184.45,
         "distKm": 4.6,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501330"
@@ -745,6 +771,7 @@
       "posSource": "flusslauf-bruecke",
       "gauge": {
         "name": "WITTENBERG",
+        "uuid": "070b1eb4-3872-4e07-b2e5-e25fd9251b93",
         "elbeKm": 214.14,
         "distKm": 1.4,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501420"
@@ -770,6 +797,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "COSWIG",
+        "uuid": "1ce53a59-33b9-40dc-9b17-3cd2a2414607",
         "elbeKm": 236.31,
         "distKm": 0.1,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501470"
@@ -796,6 +824,7 @@
       "posSource": "flusslauf-bruecke",
       "gauge": {
         "name": "VOCKERODE",
+        "uuid": "ae93f2a5-612e-4514-b5fd-9c8aecdd73c7",
         "elbeKm": 245.62,
         "distKm": 0.5,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501480"
@@ -821,6 +850,7 @@
       "posSource": "flusslauf-geschaetzt",
       "gauge": {
         "name": "ROSSLAU",
+        "uuid": "e97116a4-7d30-4671-8ba1-cdce0a153d1d",
         "elbeKm": 257.84,
         "distKm": 3.1,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=501490"
@@ -846,6 +876,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "AKEN",
+        "uuid": "094b96e5-caeb-46d3-a8ee-d44182add069",
         "elbeKm": 274.8,
         "distKm": 0.1,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=502010"
@@ -871,6 +902,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "BARBY",
+        "uuid": "939f82ec-15a9-49c8-8828-dc2f8a2d49e2",
         "elbeKm": 294.82,
         "distKm": 7.4,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=502070"
@@ -897,6 +929,7 @@
       "posSource": "flusslauf-bruecke",
       "gauge": {
         "name": "SCHÖNEBECK",
+        "uuid": "90bcb315-f080-41a8-a0ac-6122331bb4cf",
         "elbeKm": 311.76,
         "distKm": 0.0,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=502130"
@@ -922,6 +955,7 @@
       "posSource": "flusslauf-geschaetzt",
       "gauge": {
         "name": "MAGDEBURG-BUCKAU",
+        "uuid": "b8567c1e-8610-4c2b-a240-65e8a74919fa",
         "elbeKm": 325.39,
         "distKm": 2.6,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=502170"
@@ -947,6 +981,7 @@
       "posSource": "flusslauf-bruecke",
       "gauge": {
         "name": "MAGDEBURG-STROMBRÜCKE",
+        "uuid": "ccccb57f-a2f9-4183-ae88-5710d3afaefd",
         "elbeKm": 326.67,
         "distKm": 0.4,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=502180"
@@ -972,6 +1007,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "ROGÄTZ",
+        "uuid": "133f0f6c-2ca1-4798-9360-5b5f417dd839",
         "elbeKm": 350.64,
         "distKm": 0.1,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=502250"
@@ -997,6 +1033,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "TANGERMÜNDE",
+        "uuid": "13e91b77-90f3-41a5-a320-641748e9c311",
         "elbeKm": 388.26,
         "distKm": 11.7,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=502350"
@@ -1023,6 +1060,7 @@
       "posSource": "flusslauf-bruecke",
       "gauge": {
         "name": "TANGERMÜNDE",
+        "uuid": "13e91b77-90f3-41a5-a320-641748e9c311",
         "elbeKm": 388.26,
         "distKm": 1.0,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=502350"
@@ -1048,6 +1086,7 @@
       "posSource": "flusslauf-geschaetzt",
       "gauge": {
         "name": "STORKAU",
+        "uuid": "de4cc1db-51cb-4b62-bee2-9750cbe4f5c4",
         "elbeKm": 396.11,
         "distKm": 8.0,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=502370"
@@ -1074,6 +1113,7 @@
       "posSource": "flusslauf-geschaetzt",
       "gauge": {
         "name": "SANDAU",
+        "uuid": "f4c55f77-ab80-4e00-bed3-aa6631aba074",
         "elbeKm": 416.06,
         "distKm": 3.0,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=502430"
@@ -1099,6 +1139,7 @@
       "posSource": "flusslauf-bruecke",
       "gauge": {
         "name": "SANDAU",
+        "uuid": "f4c55f77-ab80-4e00-bed3-aa6631aba074",
         "elbeKm": 416.06,
         "distKm": 0.7,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=502430"
@@ -1124,6 +1165,7 @@
       "posSource": "flusslauf-bruecke",
       "gauge": {
         "name": "WITTENBERGE",
+        "uuid": "cbf3cd49-91bd-49cc-8926-ccc6c0e7eca4",
         "elbeKm": 453.98,
         "distKm": 0.7,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=503050"
@@ -1150,6 +1192,7 @@
       "posSource": "flusslauf-bruecke",
       "gauge": {
         "name": "WITTENBERGE",
+        "uuid": "cbf3cd49-91bd-49cc-8926-ccc6c0e7eca4",
         "elbeKm": 453.98,
         "distKm": 2.1,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=503050"
@@ -1176,6 +1219,7 @@
       "posSource": "flusslauf-geschaetzt",
       "gauge": {
         "name": "SCHNACKENBURG",
+        "uuid": "550e3885-a9d1-4e55-bd25-34228bd6d988",
         "elbeKm": 474.56,
         "distKm": 0.3,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5910010"
@@ -1201,6 +1245,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "LENZEN",
+        "uuid": "c80a4f21-528c-4771-98d7-10cd591699a4",
         "elbeKm": 484.7,
         "distKm": 0.2,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=503120"
@@ -1226,6 +1271,7 @@
       "posSource": "flusslauf-bruecke",
       "gauge": {
         "name": "DÖMITZ",
+        "uuid": "6e3ea719-48b1-408a-bc55-0986c1e94cd5",
         "elbeKm": 504.7,
         "distKm": 0.8,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5910025"
@@ -1251,6 +1297,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "HITZACKER",
+        "uuid": "a26e57c9-1cb8-4fca-ba80-9e02abc81df8",
         "elbeKm": 522.639,
         "distKm": 0.3,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5920010"
@@ -1277,6 +1324,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "NEU DARCHAU",
+        "uuid": "67d6e882-b60c-40d3-975c-a6d7a2b4e40a",
         "elbeKm": 536.385,
         "distKm": 0.2,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5930010"
@@ -1303,6 +1351,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "BLECKEDE",
+        "uuid": "6aa1cd8e-e528-4bcb-ba8e-705b6dcb7da2",
         "elbeKm": 549.633,
         "distKm": 0.7,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5930020"
@@ -1329,6 +1378,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "HOHNSTORF",
+        "uuid": "d9289367-c8aa-4b6a-b1ad-857fec94c6bb",
         "elbeKm": 568.987,
         "distKm": 0.3,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5930040"
@@ -1354,6 +1404,7 @@
       "posSource": "flusslauf-bruecke",
       "gauge": {
         "name": "WEHR GEESTHACHT UP",
+        "uuid": "0f7f58a8-411f-43d9-b42a-e897e63c4faa",
         "elbeKm": 585.99,
         "distKm": 0.7,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5930062"
@@ -1379,6 +1430,7 @@
       "posSource": "osm-objekt",
       "gauge": {
         "name": "ZOLLENSPIEKER",
+        "uuid": "3de8ea26-ab29-4e46-adad-06198ba2e0b7",
         "elbeKm": 598.159,
         "distKm": 0.2,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5930090"
@@ -1404,6 +1456,7 @@
       "posSource": "flusslauf-bruecke",
       "gauge": {
         "name": "HAMBURG ST. PAULI",
+        "uuid": "d488c5cc-4de9-4631-8ce1-0db0e700b546",
         "elbeKm": 623.1,
         "distKm": 3.7,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5952050"
@@ -1429,6 +1482,7 @@
       "posSource": "flusslauf-bruecke",
       "gauge": {
         "name": "HAMBURG ST. PAULI",
+        "uuid": "d488c5cc-4de9-4631-8ce1-0db0e700b546",
         "elbeKm": 623.1,
         "distKm": 0.2,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5952050"
@@ -1454,6 +1508,7 @@
       "posSource": "flusslauf-geschaetzt",
       "gauge": {
         "name": "SEEMANNSHÖFT",
+        "uuid": "816affba-0118-4668-887f-fb882ed573b2",
         "elbeKm": 628.9,
         "distKm": 0.9,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5952060"
@@ -1479,6 +1534,7 @@
       "posSource": "flusslauf-geschaetzt",
       "gauge": {
         "name": "SEEMANNSHÖFT",
+        "uuid": "816affba-0118-4668-887f-fb882ed573b2",
         "elbeKm": 628.9,
         "distKm": 0.5,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5952060"
@@ -1504,6 +1560,7 @@
       "posSource": "flusslauf-geschaetzt",
       "gauge": {
         "name": "BLANKENESE UF",
+        "uuid": "bacb459b-0f24-4233-bb35-cd224a51678e",
         "elbeKm": 635.0,
         "distKm": 0.2,
         "url": "https://www.pegelonline.wsv.de/gast/pegelinformationen?pegelnr=5952065"

@@ -154,15 +154,31 @@ Arneburg und Ferchland am 30.08.
 Umleitung Königstein–Kurort Rathen (bis 30.11.2026), Kleindröben–Mauken (bis 30.09.2026) und
 der Brückenbau Wittenberge (läuft bis 12.10.2029).
 
-### Pegel
+### Pegel — live in der App
 
-Jede Querung außerhalb Tschechiens ist dem nächstgelegenen Elbe-Pegel zugeordnet, mit Deeplink
-auf den aktuellen Wert bei pegelonline.wsv.de. Im Sheet steht der Pegelname, der Elbe-Kilometer
-und die Entfernung. Bei Fähren erscheint der Link immer, nicht nur bei gelbem Status — der
-Betrieb hängt dort grundsätzlich am Wasserstand.
+Beim Öffnen einer Fähre holt die App den aktuellen Wasserstand direkt von
+pegelonline.wsv.de und zeigt:
 
-Für den tschechischen Abschnitt gibt es keinen Pegel: pegelonline führt dort nur Přelouč, und
-das ohne Koordinaten. Lieber kein Pegel als ein falscher.
+- **den Messwert** in cm am zuständigen Pegel
+- **die Veränderung über 24 Stunden** (steigt oder fällt der Fluss?)
+- **die Einordnung**, also „unter mittlerem Niedrigwasser" oder „im normalen Bereich".
+  Das ist der wichtigere Teil: absolute Zentimeter sind zwischen Pegeln nicht vergleichbar,
+  jeder hat seinen eigenen Nullpunkt. Rogätz steht bei −19 cm, das ist kein Fehler.
+- **das Alter der Messung** („gemessen 12:15 Uhr, vor 14 Min.")
+
+Liegt der Wert unter mittlerem Niedrigwasser oder unter dem niedrigsten schiffbaren
+Wasserstand, wird die Zeile orange.
+
+Technisch: eine Sammelabfrage holt alle 73 Elbe-Pegel in einem Rutsch (66 KB, ~0,7 s) und
+gilt dann eine halbe Stunde. Der 24-Stunden-Verlauf wird nur für den gerade geöffneten Pegel
+geladen (~7 KB). Beides wird erst beim ersten Fährklick angefordert, nicht beim App-Start.
+
+**Ohne Netz** steht der letzte gespeicherte Wert samt Messalter da. Der Service Worker cacht
+die Pegelabfragen ausdrücklich **nicht** — cache-first würde den Wert einfrieren und man
+würde tagelang denselben Stand sehen, ohne es zu merken.
+
+Bei Brücken erscheint kein Pegel: deren Benutzbarkeit hängt nicht am Wasserstand.
+Für Tschechien gibt es keinen — pegelonline führt dort nur Přelouč, und das ohne Koordinaten.
 
 ### Positionsgenauigkeit
 
